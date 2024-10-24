@@ -29,6 +29,7 @@ import Modal from 'src/components/Modal';
 import { noOp } from 'src/utils/common';
 import getBootstrapData from 'src/utils/getBootstrapData';
 import { FilterPlugins } from 'src/constants';
+import Hellloworld from 'src/pages/Hellloworld';
 import VizTypeGallery, {
   MAX_ADVISABLE_VIZ_GALLERY_WIDTH,
 } from './VizTypeGallery';

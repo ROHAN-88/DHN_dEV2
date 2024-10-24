@@ -41,8 +41,8 @@ const propTypes = {
   initialValues: PropTypes.object,
   formData: PropTypes.object.isRequired,
   latestQueryFormData: PropTypes.object,
-  labelsColor: PropTypes.object,
-  labelsColorMap: PropTypes.object,
+  labelColors: PropTypes.object,
+  sharedLabelColors: PropTypes.object,
   height: PropTypes.number,
   width: PropTypes.number,
   setControlValue: PropTypes.func,
@@ -153,8 +153,8 @@ class ChartRenderer extends Component {
         nextProps.height !== this.props.height ||
         nextProps.width !== this.props.width ||
         nextProps.triggerRender ||
-        nextProps.labelsColor !== this.props.labelsColor ||
-        nextProps.labelsColorMap !== this.props.labelsColorMap ||
+        nextProps.labelColors !== this.props.labelColors ||
+        nextProps.sharedLabelColors !== this.props.sharedLabelColors ||
         nextProps.formData.color_scheme !== this.props.formData.color_scheme ||
         nextProps.formData.stack !== this.props.formData.stack ||
         nextProps.cacheBusterProp !== this.props.cacheBusterProp ||

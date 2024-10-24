@@ -50,7 +50,7 @@ import { DndItemType } from '../DndItemType';
 import { DndItemValue } from './types';
 import { DropzoneContext } from '../ExploreContainer';
 
-interface DatasourceControl extends Omit<ControlConfig, 'hidden'> {
+interface DatasourceControl extends ControlConfig {
   datasource?: IDatasource;
 }
 export interface IDatasource {
@@ -282,15 +282,15 @@ export default function DataSourcePanel({
   const mainBody = useMemo(
     () => (
       <>
-        {/* <Input
+        <Input
           allowClear
           onChange={evt => {
             setInputValue(evt.target.value);
           }}
           value={inputValue}
-          className="form-control input-md no-show"
+          className="form-control input-md"
           placeholder={t('Search Metrics & Columns')}
-        /> */}
+        />
         <div className="field-selections" data-test="fieldSelections">
           {datasourceIsSaveable && showInfoboxCheck() && (
             <StyledInfoboxWrapper>
@@ -328,8 +328,10 @@ export default function DataSourcePanel({
                 height={height}
                 itemSize={ITEM_HEIGHT}
                 itemCount={
+                  (collapseMetrics ? 0 : metricSlice?.length) +
                   (collapseColumns ? 0 : columnSlice.length) +
                   2 + // Each section header row
+                  (collapseMetrics ? 0 : 2) +
                   (collapseColumns ? 0 : 2)
                 }
                 itemData={{
@@ -387,7 +389,6 @@ export default function DataSourcePanel({
           formData={formData}
         />
       )}
-      {/* @ts-ignore */}
       <Control {...datasourceControl} name="datasource" actions={actions} />
       {datasource.id != null && mainBody}
     </DatasourceContainer>

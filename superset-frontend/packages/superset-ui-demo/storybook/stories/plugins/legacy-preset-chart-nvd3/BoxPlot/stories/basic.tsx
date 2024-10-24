@@ -24,8 +24,8 @@ import data from '../data';
 export const basic = () => (
   <SuperChart
     chartType="box-plot"
-    width={800}
-    height={600}
+    width={400}
+    height={400}
     datasource={dummyDatasource}
     queriesData={[{ data }]}
     formData={{

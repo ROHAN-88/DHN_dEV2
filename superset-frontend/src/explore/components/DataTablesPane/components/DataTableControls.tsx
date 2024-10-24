@@ -49,7 +49,6 @@ export const TableControls = ({
   columnTypes,
   rowcount,
   isLoading,
-  canDownload,
 }: TableControlsProps) => {
   const originalTimeColumns = getTimeColumns(datasourceId);
   const formattedTimeColumns = zip<string, GenericDataType>(
@@ -77,9 +76,7 @@ export const TableControls = ({
         `}
       >
         <RowCountLabel rowcount={rowcount} loading={isLoading} />
-        {canDownload && (
-          <CopyToClipboardButton data={formattedData} columns={columnNames} />
-        )}
+        <CopyToClipboardButton data={formattedData} columns={columnNames} />
       </div>
     </TableControlsWrapper>
   );

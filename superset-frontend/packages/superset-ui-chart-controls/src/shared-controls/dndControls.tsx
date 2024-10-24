@@ -57,7 +57,7 @@ export const dndGroupByControl: SharedControlConfig<
   ColumnMeta
 > = {
   type: 'DndColumnSelect',
-  label: t('Value to see'),
+  label: t('Dimensions'),
   multi: true,
   freeForm: true,
   clearable: true,
@@ -107,7 +107,7 @@ export const dndColumnsControl: typeof dndGroupByControl = {
 
 export const dndSeriesControl: typeof dndGroupByControl = {
   ...dndGroupByControl,
-  label: t('value to see'),
+  label: t('Dimension'),
   multi: false,
   default: null,
   description: t(
@@ -151,7 +151,7 @@ export const dndAdhocMetricsControl: SharedControlConfig<
 > = {
   type: 'DndMetricSelect',
   multi: true,
-  label: t('Input Value'),
+  label: t('Metrics'),
   validators: [validateNonEmpty],
   mapStateToProps: ({ datasource }) => ({
     columns: datasource?.columns || [],
@@ -169,7 +169,7 @@ export const dndAdhocMetricsControl: SharedControlConfig<
 export const dndAdhocMetricControl: typeof dndAdhocMetricsControl = {
   ...dndAdhocMetricsControl,
   multi: false,
-  label: t('INPUT VALUE'),
+  label: t('Metric'),
   description: t(
     'Select a metric to display. ' +
       'You can use an aggregation function on a column ' +

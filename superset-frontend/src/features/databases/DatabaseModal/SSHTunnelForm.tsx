@@ -31,6 +31,7 @@ const StyledDiv = styled.div`
   padding-top: ${({ theme }) => theme.gridUnit * 2}px;
   label {
     color: ${({ theme }) => theme.colors.grayscale.base};
+    text-transform: uppercase;
     margin-bottom: ${({ theme }) => theme.gridUnit * 2}px;
   }
 `;

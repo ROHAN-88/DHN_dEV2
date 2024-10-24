@@ -16,26 +16,23 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { FC } from 'react';
 import moment from 'moment-timezone';
+import { FC } from 'react';
+import { render, screen, waitFor } from 'spec/helpers/testing-library';
 import userEvent from '@testing-library/user-event';
-import {
-  render,
-  screen,
-  waitFor,
-  waitForElementToBeRemoved,
-} from 'spec/helpers/testing-library';
 import type { TimezoneSelectorProps } from './index';
 
 const loadComponent = (mockCurrentTime?: string) => {
   if (mockCurrentTime) {
-    jest.useFakeTimers();
+    jest.useFakeTimers('modern');
     jest.setSystemTime(new Date(mockCurrentTime));
   }
   return new Promise<FC<TimezoneSelectorProps>>(resolve => {
-    const { default: TimezoneSelector } = module.require('./index');
-    resolve(TimezoneSelector);
-    jest.useRealTimers();
+    jest.isolateModules(() => {
+      const { default: TimezoneSelector } = module.require('./index');
+      resolve(TimezoneSelector);
+      jest.useRealTimers();
+    });
   });
 };
 
@@ -53,8 +50,6 @@ test('use the timezone from `moment` if no timezone provided', async () => {
   const TimezoneSelector = await loadComponent('2022-01-01');
   const onTimezoneChange = jest.fn();
   render(<TimezoneSelector onTimezoneChange={onTimezoneChange} />);
-  expect(screen.getByLabelText('Loading')).toBeVisible();
-  await waitForElementToBeRemoved(() => screen.queryByLabelText('Loading'));
   expect(onTimezoneChange).toHaveBeenCalledTimes(1);
   expect(onTimezoneChange).toHaveBeenCalledWith('America/Nassau');
 });
@@ -68,7 +63,6 @@ test('update to closest deduped timezone when timezone is provided', async () =>
       timezone="America/Los_Angeles"
     />,
   );
-  await waitForElementToBeRemoved(() => screen.queryByLabelText('Loading'));
   expect(onTimezoneChange).toHaveBeenCalledTimes(1);
   expect(onTimezoneChange).toHaveBeenLastCalledWith('America/Vancouver');
 });
@@ -79,7 +73,6 @@ test('use the default timezone when an invalid timezone is provided', async () =
   render(
     <TimezoneSelector onTimezoneChange={onTimezoneChange} timezone="UTC" />,
   );
-  await waitForElementToBeRemoved(() => screen.queryByLabelText('Loading'));
   expect(onTimezoneChange).toHaveBeenCalledTimes(1);
   expect(onTimezoneChange).toHaveBeenLastCalledWith('Africa/Abidjan');
 });
@@ -93,9 +86,26 @@ test('render timezones in correct oder for standard time', async () => {
       timezone="America/Nassau"
     />,
   );
-  await waitForElementToBeRemoved(() => screen.queryByLabelText('Loading'));
   openSelectMenu();
   const options = await getSelectOptions();
+  expect(options[0]).toHaveTextContent('GMT -05:00 (Eastern Standard Time)');
+  expect(options[1]).toHaveTextContent('GMT -11:00 (Pacific/Pago_Pago)');
+  expect(options[2]).toHaveTextContent('GMT -10:00 (Hawaii Standard Time)');
+  expect(options[3]).toHaveTextContent('GMT -10:00 (America/Adak)');
+});
+
+test('render timezones in correct order for daylight saving time', async () => {
+  const TimezoneSelector = await loadComponent('2022-07-01');
+  const onTimezoneChange = jest.fn();
+  render(
+    <TimezoneSelector
+      onTimezoneChange={onTimezoneChange}
+      timezone="America/Nassau"
+    />,
+  );
+  openSelectMenu();
+  const options = await getSelectOptions();
+  // first option is always current timezone
   expect(options[0]).toHaveTextContent('GMT -04:00 (Eastern Daylight Time)');
   expect(options[1]).toHaveTextContent('GMT -11:00 (Pacific/Pago_Pago)');
   expect(options[2]).toHaveTextContent('GMT -10:00 (Hawaii Standard Time)');
@@ -111,13 +121,13 @@ test('can select a timezone values and returns canonical timezone name', async (
       timezone="Africa/Abidjan"
     />,
   );
-  await waitForElementToBeRemoved(() => screen.queryByLabelText('Loading'));
+
   openSelectMenu();
 
   const searchInput = screen.getByRole('combobox');
   // search for mountain time
   await userEvent.type(searchInput, 'mou', { delay: 10 });
-  const findTitle = 'GMT -06:00 (Mountain Daylight Time)';
+  const findTitle = 'GMT -07:00 (Mountain Standard Time)';
   const selectOption = await screen.findByTitle(findTitle);
   userEvent.click(selectOption);
   expect(onTimezoneChange).toHaveBeenCalledTimes(1);
@@ -133,7 +143,6 @@ test('can update props and rerender with different values', async () => {
       timezone="Asia/Dubai"
     />,
   );
-  await waitForElementToBeRemoved(() => screen.queryByLabelText('Loading'));
   expect(screen.getByTitle('GMT +04:00 (Asia/Dubai)')).toBeInTheDocument();
   rerender(
     <TimezoneSelector

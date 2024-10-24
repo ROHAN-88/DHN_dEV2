@@ -88,7 +88,7 @@ describe('useSchemas hook', () => {
         })}`,
       ).length,
     ).toBe(1);
-    expect(onSuccess).toHaveBeenCalledTimes(1);
+    expect(onSuccess).toHaveBeenCalledTimes(2);
     act(() => {
       result.current.refetch();
     });
@@ -100,7 +100,7 @@ describe('useSchemas hook', () => {
         })}`,
       ).length,
     ).toBe(1);
-    expect(onSuccess).toHaveBeenCalledTimes(2);
+    expect(onSuccess).toHaveBeenCalledTimes(3);
     expect(result.current.data).toEqual(expectedResult);
   });
 
@@ -149,36 +149,28 @@ describe('useSchemas hook', () => {
       },
     );
 
-    await waitFor(() =>
-      expect(result.current.currentData).toEqual(expectedResult),
-    );
+    await waitFor(() => expect(result.current.data).toEqual(expectedResult));
     expect(fetchMock.calls(schemaApiRoute).length).toBe(1);
-    expect(onSuccess).toHaveBeenCalledTimes(1);
+    expect(onSuccess).toHaveBeenCalledTimes(2);
 
     rerender({ dbId: 'db2' });
-    await waitFor(() =>
-      expect(result.current.currentData).toEqual(expectedResult2),
-    );
+    await waitFor(() => expect(result.current.data).toEqual(expectedResult2));
     expect(fetchMock.calls(schemaApiRoute).length).toBe(2);
-    expect(onSuccess).toHaveBeenCalledTimes(2);
+    expect(onSuccess).toHaveBeenCalledTimes(4);
 
     rerender({ dbId: expectDbId });
-    await waitFor(() =>
-      expect(result.current.currentData).toEqual(expectedResult),
-    );
+    await waitFor(() => expect(result.current.data).toEqual(expectedResult));
     expect(fetchMock.calls(schemaApiRoute).length).toBe(2);
-    expect(onSuccess).toHaveBeenCalledTimes(2);
+    expect(onSuccess).toHaveBeenCalledTimes(5);
 
     // clean up cache
     act(() => {
       store.dispatch(api.util.invalidateTags(['Schemas']));
     });
 
-    await waitFor(() => expect(fetchMock.calls(schemaApiRoute).length).toBe(4));
+    await waitFor(() => expect(fetchMock.calls(schemaApiRoute).length).toBe(3));
     expect(fetchMock.calls(schemaApiRoute)[2][0]).toContain(expectDbId);
-    await waitFor(() =>
-      expect(result.current.currentData).toEqual(expectedResult),
-    );
+    await waitFor(() => expect(result.current.data).toEqual(expectedResult));
   });
 
   test('returns correct schema list by a catalog', async () => {
@@ -209,7 +201,7 @@ describe('useSchemas hook', () => {
 
     await waitFor(() => expect(fetchMock.calls(schemaApiRoute).length).toBe(1));
     expect(result.current.data).toEqual(expectedResult3);
-    expect(onSuccess).toHaveBeenCalledTimes(1);
+    expect(onSuccess).toHaveBeenCalledTimes(2);
 
     rerender({ dbId, catalog: 'catalog2' });
     await waitFor(() => expect(fetchMock.calls(schemaApiRoute).length).toBe(2));

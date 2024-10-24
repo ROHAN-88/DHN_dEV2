@@ -188,7 +188,7 @@ const TableSelector: FunctionComponent<TableSelectorProps> = ({
     SelectValue | undefined
   >(undefined);
   const {
-    currentData: data,
+    data,
     isFetching: loadingTables,
     refetch,
   } = useTables({

@@ -29,8 +29,7 @@ import {
   rgbToHex,
   tooltipHtml,
 } from '@superset-ui/core';
-import type { ComposeOption } from 'echarts/core';
-import type { BarSeriesOption } from 'echarts/charts';
+import { EChartsOption, BarSeriesOption } from 'echarts';
 import {
   EchartsWaterfallChartProps,
   ISeriesData,
@@ -43,8 +42,6 @@ import { ASSIST_MARK, LEGEND, TOKEN, TOTAL_MARK } from './constants';
 import { getColtypesMapping } from '../utils/series';
 import { Refs } from '../types';
 import { NULL_STRING } from '../constants';
-
-type EChartsOption = ComposeOption<BarSeriesOption>;
 
 function formatTooltip({
   params,

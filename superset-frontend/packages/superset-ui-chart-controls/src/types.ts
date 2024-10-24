@@ -258,9 +258,6 @@ export interface BaseControlConfig<
     props: ControlPanelsContainerProps,
     controlData: AnyDict,
   ) => boolean;
-  hidden?:
-    | boolean
-    | ((props: ControlPanelsContainerProps, controlData: AnyDict) => boolean);
 }
 
 export interface ControlValueValidator<

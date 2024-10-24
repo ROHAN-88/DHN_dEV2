@@ -69,7 +69,7 @@ export type InitialState = {
   }[];
 };
 
-const initialStateApi = api.injectEndpoints({
+const queryValidationApi = api.injectEndpoints({
   endpoints: builder => ({
     sqlLabInitialState: builder.query<InitialState, void>({
       providesTags: ['SqlLabInitialState'],
@@ -83,4 +83,4 @@ const initialStateApi = api.injectEndpoints({
 });
 
 export const { useSqlLabInitialStateQuery: useSqlLabInitialState } =
-  initialStateApi;
+  queryValidationApi;

@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -16,22 +16,14 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import {
-  QueryFormColumn,
-  QueryFormData,
-  QueryFormMetric,
-} from '@superset-ui/core';
-import { BaseChartProps, BaseTransformedProps } from '../types';
 
-export type SankeyFormData = QueryFormData & {
-  colorScheme: string;
-  metric: QueryFormMetric;
-  source: QueryFormColumn;
-  target: QueryFormColumn;
-};
+import { WordCloudChartPlugin, LegacyWordCloudChartPlugin } from '../src';
 
-export interface SankeyChartProps extends BaseChartProps<SankeyFormData> {
-  formData: SankeyFormData;
-}
-
-export type SankeyTransformedProps = BaseTransformedProps<SankeyFormData> & {};
+describe('plugin-chart-word-cloud', () => {
+  it('exports WordCloudChartPlugin', () => {
+    expect(WordCloudChartPlugin).toBeDefined();
+  });
+  it('exports LegacyWordCloudChartPlugin', () => {
+    expect(LegacyWordCloudChartPlugin).toBeDefined();
+  });
+});

@@ -25,10 +25,9 @@ import {
   getTimeFormatter,
   NumberFormatter,
 } from '@superset-ui/core';
-import type { CallbackDataParams } from 'echarts/types/src/util/types';
-import type { RadarSeriesDataItemOption } from 'echarts/types/src/chart/radar/RadarSeries';
-import type { EChartsCoreOption } from 'echarts/core';
-import type { RadarSeriesOption } from 'echarts/charts';
+import { CallbackDataParams } from 'echarts/types/src/util/types';
+import { RadarSeriesDataItemOption } from 'echarts/types/src/chart/radar/RadarSeries';
+import { EChartsCoreOption, RadarSeriesOption } from 'echarts';
 import {
   DEFAULT_FORM_DATA as DEFAULT_RADAR_FORM_DATA,
   EchartsRadarChartProps,
@@ -166,7 +165,7 @@ export default function transformProps(
       value: metricLabels.map(metricLabel => datum[metricLabel]),
       name: joinedName,
       itemStyle: {
-        color: colorFn(joinedName, sliceId, colorScheme),
+        color: colorFn(joinedName, sliceId),
         opacity: isFiltered
           ? OpacityEnum.Transparent
           : OpacityEnum.NonTransparent,

@@ -56,6 +56,7 @@ import ActivityTable from 'src/features/home/ActivityTable';
 import ChartTable from 'src/features/home/ChartTable';
 import SavedQueries from 'src/features/home/SavedQueries';
 import DashboardTable from 'src/features/home/DashboardTable';
+import Hellloworld from '../Hellloworld';
 
 const extensionsRegistry = getExtensionsRegistry();
 
@@ -218,7 +219,7 @@ function Welcome({ user, addDangerToast }: WelcomeProps) {
   }, []);
 
   useEffect(() => {
-    if (!otherTabFilters || WelcomeMainExtension) {
+    if (!otherTabFilters) {
       return;
     }
     const activeTab = getItem(LocalStorageKeys.HomepageActivityFilter, null);

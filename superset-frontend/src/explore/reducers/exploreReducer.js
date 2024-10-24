@@ -261,16 +261,14 @@ export default function exploreReducer(state = {}, action) {
       }
 
       const restoredField = pick(hiddenFormData, fieldNames);
-      return Object.keys(restoredField).length === 0
-        ? state
-        : {
-            ...state,
-            form_data: {
-              ...form_data,
-              ...restoredField,
-            },
-            hiddenFormData: omit(hiddenFormData, fieldNames),
-          };
+      return {
+        ...state,
+        form_data: {
+          ...form_data,
+          ...restoredField,
+        },
+        hiddenFormData,
+      };
     },
     [actions.SLICE_UPDATED]() {
       return {

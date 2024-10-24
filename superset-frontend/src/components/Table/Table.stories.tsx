@@ -18,7 +18,7 @@
  */
 import { useState, DragEvent } from 'react';
 
-import type { Meta, StoryFn } from '@storybook/react';
+import { ComponentMeta, ComponentStory } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import {
   ColumnsType,
@@ -44,7 +44,7 @@ export default {
   title: 'Design System/Components/Table/Examples',
   component: Table,
   argTypes: { onClick: { action: 'clicked' } },
-} as Meta<typeof Table>;
+} as ComponentMeta<typeof Table>;
 
 export interface BasicData {
   name: string;
@@ -306,7 +306,7 @@ for (let i = 0; i < recordCount; i += 1) {
   });
 }
 
-export const Basic: StoryFn<typeof Table> = args => <Table {...args} />;
+export const Basic: ComponentStory<typeof Table> = args => <Table {...args} />;
 
 function handlers(record: object, rowIndex: number) {
   return {
@@ -332,7 +332,9 @@ Basic.args = {
   usePagination: false,
 };
 
-export const Pagination: StoryFn<typeof Table> = args => <Table {...args} />;
+export const Pagination: ComponentStory<typeof Table> = args => (
+  <Table {...args} />
+);
 
 Pagination.args = {
   data: basicData,
@@ -399,7 +401,7 @@ const paginationColumns: ColumnsType<BasicData> = [
   },
 ];
 
-export const ServerPagination: StoryFn<typeof Table> = args => {
+export const ServerPagination: ComponentStory<typeof Table> = args => {
   const [data, setData] = useState(generateData(0, 5));
   const [loading, setLoading] = useState(false);
 
@@ -454,7 +456,7 @@ ServerPagination.args = {
   defaultPageSize: 5,
 };
 
-export const VirtualizedPerformance: StoryFn<typeof Table> = args => (
+export const VirtualizedPerformance: ComponentStory<typeof Table> = args => (
   <Table {...args} />
 );
 
@@ -469,7 +471,9 @@ VirtualizedPerformance.args = {
   usePagination: false,
 };
 
-export const Loading: StoryFn<typeof Table> = args => <Table {...args} />;
+export const Loading: ComponentStory<typeof Table> = args => (
+  <Table {...args} />
+);
 
 Loading.args = {
   data: basicData,
@@ -478,7 +482,7 @@ Loading.args = {
   loading: true,
 };
 
-export const ResizableColumns: StoryFn<typeof Table> = args => (
+export const ResizableColumns: ComponentStory<typeof Table> = args => (
   <Table {...args} />
 );
 
@@ -489,7 +493,7 @@ ResizableColumns.args = {
   resizable: true,
 };
 
-export const ReorderableColumns: StoryFn<typeof Table> = args => {
+export const ReorderableColumns: ComponentStory<typeof Table> = args => {
   const [droppedItem, setDroppedItem] = useState<string | undefined>();
   const dragOver = (ev: DragEvent<HTMLDivElement>) => {
     ev.preventDefault();
@@ -568,7 +572,9 @@ const rendererData: RendererData[] = [
   },
 ];
 
-export const CellRenderers: StoryFn<typeof Table> = args => <Table {...args} />;
+export const CellRenderers: ComponentStory<typeof Table> = args => (
+  <Table {...args} />
+);
 
 CellRenderers.args = {
   data: rendererData,
@@ -588,24 +594,24 @@ const shoppingData: ShoppingData[] = [
   {
     key: 1,
     item: 'Floppy Disk 10 pack',
-    orderDate: new Date('2015-07-02T16:16:00Z').getTime(),
+    orderDate: Date.now(),
     price: 9.99,
   },
   {
     key: 2,
     item: 'DVD 100 pack',
-    orderDate: new Date('2015-07-02T16:16:00Z').getTime(),
+    orderDate: Date.now(),
     price: 7.99,
   },
   {
     key: 3,
     item: '128 GB SSD',
-    orderDate: new Date('2015-07-02T16:16:00Z').getTime(),
+    orderDate: Date.now(),
     price: 3.99,
   },
 ];
 
-export const HeaderRenderers: StoryFn<typeof Table> = () => {
+export const HeaderRenderers: ComponentStory<typeof Table> = () => {
   const [orderDateFormatting, setOrderDateFormatting] = useState('formatted');
   const [priceLocale, setPriceLocale] = useState(LocaleCode.en_US);
   const shoppingColumns: ColumnsType<ShoppingData> = [

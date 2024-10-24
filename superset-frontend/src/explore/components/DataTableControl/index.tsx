@@ -160,6 +160,7 @@ const FormatPickerLabel = styled.span`
   font-size: ${({ theme }) => theme.typography.sizes.s}px;
   color: ${({ theme }) => theme.colors.grayscale.base};
   margin-bottom: ${({ theme }) => theme.gridUnit * 2}px;
+  text-transform: uppercase;
 `;
 
 const DataTableTemporalHeaderCell = ({
@@ -250,8 +251,8 @@ export const useFilteredTableData = (
       return [];
     }
     return data.filter((_, index: number) =>
-      rowsAsStrings[index].some(value =>
-        value?.includes(filterText.toLowerCase()),
+      rowsAsStrings[index].some(
+        value => value?.includes(filterText.toLowerCase()),
       ),
     );
   }, [data, filterText, rowsAsStrings]);

@@ -16,9 +16,8 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { withJsx } from '@mihkeleidast/storybook-addon-source';
+import { jsxDecorator } from 'storybook-addon-jsx';
 import { supersetTheme, ThemeProvider } from '@superset-ui/core';
-import { AntdThemeProvider } from '../src/components/AntdThemeProvider';
 import { combineReducers, createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
@@ -36,10 +35,10 @@ const store = createStore(
 
 const themeDecorator = Story => (
   <ThemeProvider theme={supersetTheme}>
-    <AntdThemeProvider>
+    <>
       <GlobalStyles />
       <Story />
-    </AntdThemeProvider>
+    </>
   </ThemeProvider>
 );
 
@@ -49,7 +48,7 @@ const providerDecorator = Story => (
   </Provider>
 );
 
-export const decorators = [withJsx, themeDecorator, providerDecorator];
+export const decorators = [jsxDecorator, themeDecorator, providerDecorator];
 
 export const parameters = {
   paddings: {

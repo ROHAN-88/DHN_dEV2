@@ -126,17 +126,15 @@ const createFetchResourceMethod =
   };
 
 export const PAGE_SIZE = 5;
-const getParams = (filters?: Filter[], selectColumns?: string[]) => {
+const getParams = (filters?: Filter[]) => {
   const params = {
     order_column: 'changed_on_delta_humanized',
     order_direction: 'desc',
     page: 0,
     page_size: PAGE_SIZE,
     filters,
-    select_columns: selectColumns,
   };
   if (!filters) delete params.filters;
-  if (!selectColumns) delete params.select_columns;
   return rison.encode(params);
 };
 
@@ -179,41 +177,10 @@ export const getUserOwnedObjects = (
       value: `${userId}`,
     },
   ],
-  selectColumns?: string[],
 ) =>
   SupersetClient.get({
-    endpoint: `/api/v1/${resource}/?q=${getParams(filters, selectColumns)}`,
+    endpoint: `/api/v1/${resource}/?q=${getParams(filters)}`,
   }).then(res => res.json?.result);
-
-export const getFilteredChartsandDashboards = (
-  addDangerToast: (arg1: string, arg2: any) => any,
-  filters: Filter[],
-  dashboardSelectColumns?: string[],
-  chartSelectColumns?: string[],
-) => {
-  const newBatch = [
-    SupersetClient.get({
-      endpoint: `/api/v1/chart/?q=${getParams(filters, chartSelectColumns)}`,
-    }),
-    SupersetClient.get({
-      endpoint: `/api/v1/dashboard/?q=${getParams(
-        filters,
-        dashboardSelectColumns,
-      )}`,
-    }),
-  ];
-  return Promise.all(newBatch)
-    .then(([chartRes, dashboardRes]) => ({
-      other: [...chartRes.json.result, ...dashboardRes.json.result],
-    }))
-    .catch(errMsg => {
-      addDangerToast(
-        t('There was an error fetching the filtered charts and dashboards:'),
-        errMsg,
-      );
-      return { other: [] };
-    });
-};
 
 export const getRecentActivityObjs = (
   userId: string | number,
@@ -223,13 +190,26 @@ export const getRecentActivityObjs = (
 ) =>
   SupersetClient.get({ endpoint: recent }).then(recentsRes => {
     const res: any = {};
-    return getFilteredChartsandDashboards(addDangerToast, filters).then(
-      ({ other }) => {
-        res.other = other;
+    const newBatch = [
+      SupersetClient.get({
+        endpoint: `/api/v1/chart/?q=${getParams(filters)}`,
+      }),
+      SupersetClient.get({
+        endpoint: `/api/v1/dashboard/?q=${getParams(filters)}`,
+      }),
+    ];
+    return Promise.all(newBatch)
+      .then(([chartRes, dashboardRes]) => {
+        res.other = [...chartRes.json.result, ...dashboardRes.json.result];
         res.viewed = recentsRes.json.result;
         return res;
-      },
-    );
+      })
+      .catch(errMsg =>
+        addDangerToast(
+          t('There was an error fetching your recent activity:'),
+          errMsg,
+        ),
+      );
   });
 
 export const createFetchRelated = createFetchResourceMethod('related');

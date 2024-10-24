@@ -54,8 +54,8 @@ const propTypes = {
   // from redux
   chart: chartPropShape.isRequired,
   formData: PropTypes.object.isRequired,
-  labelsColor: PropTypes.object,
-  labelsColorMap: PropTypes.object,
+  labelColors: PropTypes.object,
+  sharedLabelColors: PropTypes.object,
   datasource: PropTypes.object,
   slice: slicePropShape.isRequired,
   sliceName: PropTypes.string.isRequired,
@@ -134,7 +134,6 @@ class Chart extends Component {
     this.handleFilterMenuOpen = this.handleFilterMenuOpen.bind(this);
     this.handleFilterMenuClose = this.handleFilterMenuClose.bind(this);
     this.exportCSV = this.exportCSV.bind(this);
-    this.exportPivotCSV = this.exportPivotCSV.bind(this);
     this.exportFullCSV = this.exportFullCSV.bind(this);
     this.exportXLSX = this.exportXLSX.bind(this);
     this.exportFullXLSX = this.exportFullXLSX.bind(this);
@@ -331,10 +330,6 @@ class Chart extends Component {
     this.exportTable('csv', isFullCSV);
   }
 
-  exportPivotCSV() {
-    this.exportTable('csv', false, true);
-  }
-
   exportXLSX() {
     this.exportTable('xlsx', false);
   }
@@ -343,7 +338,7 @@ class Chart extends Component {
     this.exportTable('xlsx', true);
   }
 
-  exportTable(format, isFullCSV, isPivot = false) {
+  exportTable(format, isFullCSV) {
     const logAction =
       format === 'csv'
         ? LOG_ACTIONS_EXPORT_CSV_DASHBOARD_CHART
@@ -356,7 +351,7 @@ class Chart extends Component {
       formData: isFullCSV
         ? { ...this.props.formData, row_limit: this.props.maxRows }
         : this.props.formData,
-      resultType: isPivot ? 'post_processed' : 'full',
+      resultType: 'full',
       resultFormat: format,
       force: true,
       ownState: this.props.ownState,
@@ -387,8 +382,8 @@ class Chart extends Component {
       editMode,
       filters,
       formData,
-      labelsColor,
-      labelsColorMap,
+      labelColors,
+      sharedLabelColors,
       updateSliceName,
       sliceName,
       toggleExpandSlice,
@@ -449,7 +444,6 @@ class Chart extends Component {
           logEvent={logEvent}
           onExploreChart={this.onExploreChart}
           exportCSV={this.exportCSV}
-          exportPivotCSV={this.exportPivotCSV}
           exportXLSX={this.exportXLSX}
           exportFullCSV={this.exportFullCSV}
           exportFullXLSX={this.exportFullXLSX}
@@ -515,8 +509,8 @@ class Chart extends Component {
             dashboardId={dashboardId}
             initialValues={initialValues}
             formData={formData}
-            labelsColor={labelsColor}
-            labelsColorMap={labelsColorMap}
+            labelColors={labelColors}
+            sharedLabelColors={sharedLabelColors}
             ownState={ownState}
             filterState={filterState}
             queriesResponse={chart.queriesResponse}

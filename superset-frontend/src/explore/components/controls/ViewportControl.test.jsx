@@ -16,6 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+/* eslint-disable no-unused-expressions */
 import { styledMount as mount } from 'spec/helpers/theming';
 import Popover from 'src/components/Popover';
 

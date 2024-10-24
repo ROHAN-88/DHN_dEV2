@@ -27,9 +27,8 @@ import {
   tooltipHtml,
   ValueFormatter,
 } from '@superset-ui/core';
-import type { CallbackDataParams } from 'echarts/types/src/util/types';
-import type { EChartsCoreOption } from 'echarts/core';
-import type { FunnelSeriesOption } from 'echarts/charts';
+import { CallbackDataParams } from 'echarts/types/src/util/types';
+import { EChartsCoreOption, FunnelSeriesOption } from 'echarts';
 import {
   DEFAULT_FORM_DATA as DEFAULT_FUNNEL_FORM_DATA,
   EchartsFunnelChartProps,
@@ -175,7 +174,7 @@ export default function transformProps(
       value,
       name,
       itemStyle: {
-        color: colorFn(name, sliceId, colorScheme),
+        color: colorFn(name, sliceId),
         opacity: isFiltered
           ? OpacityEnum.SemiTransparent
           : OpacityEnum.NonTransparent,

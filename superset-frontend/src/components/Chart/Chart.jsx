@@ -54,8 +54,8 @@ const propTypes = {
   // formData contains chart's own filter parameter
   // and merged with extra filter that current dashboard applying
   formData: PropTypes.object.isRequired,
-  labelsColor: PropTypes.object,
-  labelsColorMap: PropTypes.object,
+  labelColors: PropTypes.object,
+  sharedLabelColors: PropTypes.object,
   width: PropTypes.number,
   height: PropTypes.number,
   setControlValue: PropTypes.func,

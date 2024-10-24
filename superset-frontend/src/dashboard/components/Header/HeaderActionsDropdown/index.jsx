@@ -19,7 +19,6 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
-import { connect } from 'react-redux';
 import { t } from '@superset-ui/core';
 import { Menu } from 'src/components/Menu';
 import { URL_PARAMS } from 'src/constants';
@@ -47,7 +46,6 @@ const propTypes = {
   customCss: PropTypes.string,
   colorNamespace: PropTypes.string,
   colorScheme: PropTypes.string,
-  directPathToChild: PropTypes.array,
   onChange: PropTypes.func.isRequired,
   updateCss: PropTypes.func.isRequired,
   forceRefreshAllCharts: PropTypes.func.isRequired,
@@ -79,11 +77,7 @@ const defaultProps = {
   refreshWarning: null,
 };
 
-const mapStateToProps = state => ({
-  directPathToChild: state.dashboardState.directPathToChild,
-});
-
-export class HeaderActionsDropdown extends PureComponent {
+class HeaderActionsDropdown extends PureComponent {
   static discardChanges() {
     window.location.reload();
   }
@@ -179,7 +173,6 @@ export class HeaderActionsDropdown extends PureComponent {
       addDangerToast,
       setIsDropdownVisible,
       isDropdownVisible,
-      directPathToChild,
       ...rest
     } = this.props;
 
@@ -197,8 +190,6 @@ export class HeaderActionsDropdown extends PureComponent {
 
     const refreshIntervalOptions =
       dashboardInfo.common?.conf?.DASHBOARD_AUTO_REFRESH_INTERVALS;
-
-    const dashboardComponentId = [...(directPathToChild || [])].pop();
 
     return (
       <Menu selectable={false} data-test="header-actions-menu" {...rest}>
@@ -276,7 +267,7 @@ export class HeaderActionsDropdown extends PureComponent {
             pdfMenuItemTitle={t('Export to PDF')}
             imageMenuItemTitle={t('Download as Image')}
             dashboardTitle={dashboardTitle}
-            dashboardId={dashboardId}
+            addDangerToast={addDangerToast}
           />
         </Menu.SubMenu>
         {userCanShare && (
@@ -295,7 +286,6 @@ export class HeaderActionsDropdown extends PureComponent {
               addSuccessToast={addSuccessToast}
               addDangerToast={addDangerToast}
               dashboardId={dashboardId}
-              dashboardComponentId={dashboardComponentId}
             />
           </Menu.SubMenu>
         )}
@@ -364,4 +354,4 @@ export class HeaderActionsDropdown extends PureComponent {
 HeaderActionsDropdown.propTypes = propTypes;
 HeaderActionsDropdown.defaultProps = defaultProps;
 
-export default connect(mapStateToProps)(HeaderActionsDropdown);
+export default HeaderActionsDropdown;

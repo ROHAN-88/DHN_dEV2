@@ -210,7 +210,7 @@ export const extraQueryEditor1 = {
 export const extraQueryEditor2 = {
   ...defaultQueryEditor,
   id: 'owkdi998',
-  sql: '',
+  sql: 'SELECT *\nFROM\nWHERE\nGROUP BY',
   name: 'Untitled Query 3',
 };
 
@@ -681,7 +681,6 @@ export const initialState = {
     queriesLastUpdate: 0,
     activeSouthPaneTab: 'Results',
     unsavedQueryEditor: {},
-    destroyedQueryEditors: {},
   },
   messageToasts: [],
   user,

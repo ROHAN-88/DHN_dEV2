@@ -16,6 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+/* eslint-disable no-unused-expressions */
 import { render, screen } from 'spec/helpers/testing-library';
 import FilterDefinitionOption from 'src/explore/components/controls/MetricControl/FilterDefinitionOption';
 import { AGGREGATES } from 'src/explore/constants';

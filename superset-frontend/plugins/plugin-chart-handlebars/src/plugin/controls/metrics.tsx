@@ -102,7 +102,7 @@ export const showTotalsControlSetItem: ControlSetItem = {
   name: 'show_totals',
   config: {
     type: 'CheckboxControl',
-    label: t('Show summary'),
+    label: t('Show totals'),
     default: false,
     description: t(
       'Show total aggregations of selected metrics. Note that row limit does not apply to the result.',

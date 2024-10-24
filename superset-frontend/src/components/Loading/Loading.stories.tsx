@@ -64,7 +64,6 @@ InteractiveLoading.args = {
 InteractiveLoading.argTypes = {
   position: {
     name: 'position',
-    control: { type: 'select' },
-    options: POSITIONS,
+    control: { type: 'select', options: POSITIONS },
   },
 };

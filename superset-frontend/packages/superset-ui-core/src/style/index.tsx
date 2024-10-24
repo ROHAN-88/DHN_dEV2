@@ -61,7 +61,8 @@ const defaultTheme = {
     },
     primary: {
       base: '#20A7C9',
-      dark1: '#1A85A0',
+      // change Color
+      dark1: '#000000',
       dark2: '#156378',
       light1: '#79CADE',
       light2: '#A5DAE9',

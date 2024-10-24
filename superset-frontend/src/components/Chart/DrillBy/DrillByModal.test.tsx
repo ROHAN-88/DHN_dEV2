@@ -86,7 +86,6 @@ const renderModal = async (
             onHideModal={() => setShowModal(false)}
             dataset={dataset}
             drillByConfig={{ groupbyFieldName: 'groupby', filters: [] }}
-            canDownload
             {...modalProps}
           />
         )}

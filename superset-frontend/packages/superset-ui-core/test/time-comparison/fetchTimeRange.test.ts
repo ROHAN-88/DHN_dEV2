@@ -52,7 +52,6 @@ test('generates a readable time range', () => {
   expect(formatTimeRange(' : 2020-07-30T00:00:00')).toBe(
     '-∞ ≤ col < 2020-07-30',
   );
-  expect(formatTimeRange('')).toBe('');
 });
 
 test('returns a formatted time range from response', async () => {

@@ -16,6 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+/* eslint-disable no-unused-expressions */
 import * as redux from 'react-redux';
 import sinon from 'sinon';
 import { shallow } from 'enzyme';
@@ -405,7 +406,7 @@ describe('AdhocFilterEditPopoverSimpleTabContent Advanced data Type Test', () =>
   });
 
   afterAll(() => {
-    isFeatureEnabledMock.mockRestore();
+    isFeatureEnabledMock.restore();
   });
 
   it('should not call API when column has no advanced data type', async () => {

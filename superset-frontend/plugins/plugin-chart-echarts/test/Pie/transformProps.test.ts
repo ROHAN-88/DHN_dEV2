@@ -22,11 +22,8 @@ import {
   SqlaFormData,
   supersetTheme,
 } from '@superset-ui/core';
-import type { PieSeriesOption } from 'echarts/charts';
-import type {
-  LabelFormatterCallback,
-  CallbackDataParams,
-} from 'echarts/types/src/util/types';
+import { LabelFormatterCallback, PieSeriesOption } from 'echarts';
+import { CallbackDataParams } from 'echarts/types/src/util/types';
 import transformProps, { parseParams } from '../../src/Pie/transformProps';
 import { EchartsPieChartProps } from '../../src/Pie/types';
 

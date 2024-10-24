@@ -23,7 +23,6 @@ import { connect } from 'react-redux';
 import URI from 'urijs';
 import type { QueryEditor, SqlLabRootState } from 'src/SqlLab/types';
 import { FeatureFlag, styled, t, isFeatureEnabled } from '@superset-ui/core';
-import { Logger } from 'src/logger/LogUtils';
 import { Tooltip } from 'src/components/Tooltip';
 import { detectOS } from 'src/utils/common';
 import * as Actions from 'src/SqlLab/actions/sqlLab';
@@ -194,7 +193,6 @@ class TabbedSqlEditors extends PureComponent<TabbedSqlEditorsProps> {
       }
     }
     if (action === 'add') {
-      Logger.markTimeOrigin();
       this.newQueryEditor();
     }
   }
@@ -202,14 +200,6 @@ class TabbedSqlEditors extends PureComponent<TabbedSqlEditorsProps> {
   removeQueryEditor(qe: QueryEditor) {
     this.props.actions.removeQueryEditor(qe);
   }
-
-  onTabClicked = () => {
-    Logger.markTimeOrigin();
-    const noQueryEditors = this.props.queryEditors?.length === 0;
-    if (noQueryEditors) {
-      this.newQueryEditor();
-    }
-  };
 
   render() {
     const noQueryEditors = this.props.queryEditors?.length === 0;
@@ -271,7 +261,7 @@ class TabbedSqlEditors extends PureComponent<TabbedSqlEditorsProps> {
         onChange={this.handleSelect}
         fullWidth={false}
         hideAdd={this.props.offline}
-        onTabClick={this.onTabClicked}
+        onTabClick={() => noQueryEditors && this.newQueryEditor()}
         onEdit={this.handleEdit}
         type={noQueryEditors ? 'card' : 'editable-card'}
         addIcon={

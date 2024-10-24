@@ -121,7 +121,6 @@ const SectionHeaderButton = styled.button`
   justify-content: space-between;
   align-items: center;
   border: none;
-
   background: transparent;
   width: 100%;
   padding-inline: 0px;
@@ -179,15 +178,16 @@ const DatasourcePanelItem: FC<Props> = ({ index, style, data }) => {
     (isColumnSection ? columnSlice.length : metricSlice.length) +
     (collapseMetrics ? HEADER_LINE : SUBTITLE_LINE) +
     1;
-  const collapsed = collapseColumns;
+  const collapsed = isColumnSection ? collapseColumns : collapseMetrics;
   const setCollapse = isColumnSection
     ? onCollapseColumnsChange
     : onCollapseMetricsChange;
-  const showAll = isColumnSection ? showAllColumns : null;
-  const setShowAll = onShowAllColumnsChange;
-
+  const showAll = isColumnSection ? showAllColumns : showAllMetrics;
+  const setShowAll = isColumnSection
+    ? onShowAllColumnsChange
+    : onShowAllMetricsChange;
   const theme = useTheme();
-  // const hiddenCount = isColumnSection ? hiddenColumnCount : hiddenMetricCount;
+  const hiddenCount = isColumnSection ? hiddenColumnCount : hiddenMetricCount;
 
   return (
     <div
@@ -198,10 +198,17 @@ const DatasourcePanelItem: FC<Props> = ({ index, style, data }) => {
     >
       {index === HEADER_LINE && (
         <SectionHeaderButton onClick={() => setCollapse(!collapsed)}>
-          <SectionHeader>Columns </SectionHeader>
+          <SectionHeader>
+            {isColumnSection ? t('Columns') : t('Metrics')}
+          </SectionHeader>
+          {collapsed ? (
+            <Icons.DownOutlined iconSize="s" />
+          ) : (
+            <Icons.UpOutlined iconSize="s" />
+          )}
         </SectionHeaderButton>
       )}
-      {/* {index === SUBTITLE_LINE && !collapsed && (
+      {index === SUBTITLE_LINE && !collapsed && (
         <div
           css={css`
             display: flex;
@@ -224,7 +231,7 @@ const DatasourcePanelItem: FC<Props> = ({ index, style, data }) => {
             <Box>{t(`%s ineligible item(s) are hidden`, hiddenCount)}</Box>
           )}
         </div>
-      )} */}
+      )}
       {index > SUBTITLE_LINE && index < BOTTOM_LINE && (
         <LabelWrapper
           key={
@@ -236,7 +243,11 @@ const DatasourcePanelItem: FC<Props> = ({ index, style, data }) => {
           className="column"
         >
           <DatasourcePanelDragOption
-            value={columnSlice[index - SUBTITLE_LINE - 1] as DndItemValue}
+            value={
+              isColumnSection
+                ? (columnSlice[index - SUBTITLE_LINE - 1] as DndItemValue)
+                : metricSlice[index - SUBTITLE_LINE - 1]
+            }
             type={isColumnSection ? DndItemType.Column : DndItemType.Metric}
           />
         </LabelWrapper>

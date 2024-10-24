@@ -88,7 +88,6 @@ export const DataTablesPane = ({
   ownState,
   errorMessage,
   actions,
-  canDownload,
 }: DataTablesPaneProps) => {
   const theme = useTheme();
   const [activeTabKey, setActiveTabKey] = useState<string>(ResultTypes.Results);
@@ -199,7 +198,6 @@ export const DataTablesPane = ({
     isRequest: isRequest.results,
     actions,
     isVisible: ResultTypes.Results === activeTabKey,
-    canDownload,
   }).map((pane, idx) => {
     if (idx === 0) {
       return (
@@ -237,7 +235,6 @@ export const DataTablesPane = ({
             isRequest={isRequest.samples}
             actions={actions}
             isVisible={ResultTypes.Samples === activeTabKey}
-            canDownload={canDownload}
           />
         </Tabs.TabPane>
       </Tabs>

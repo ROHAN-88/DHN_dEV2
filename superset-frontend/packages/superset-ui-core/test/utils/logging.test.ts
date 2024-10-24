@@ -24,11 +24,6 @@ describe('logging', () => {
     jest.resetAllMocks();
   });
 
-  const { console } = window;
-  afterAll(() => {
-    Object.assign(window, { console });
-  });
-
   it('should pipe to `console` methods', () => {
     const { logging } = require('@superset-ui/core');
 
@@ -58,6 +53,7 @@ describe('logging', () => {
   });
 
   it('should use noop functions when console unavailable', () => {
+    const { console } = window;
     Object.assign(window, { console: undefined });
     const { logging } = require('@superset-ui/core');
 

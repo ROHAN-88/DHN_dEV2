@@ -378,11 +378,7 @@ function ChartList(props: ChartListProps) {
               datasource_url: dsUrl,
             },
           },
-        }: any) => (
-          <Tooltip title={dsNameTxt} placement="top">
-            <GenericLink to={dsUrl}>{dsNameTxt?.split('.')[1]}</GenericLink>
-          </Tooltip>
-        ),
+        }: any) => <GenericLink to={dsUrl}>{dsNameTxt}</GenericLink>,
         Header: t('Dataset'),
         accessor: 'datasource_id',
         disableSortBy: true,
@@ -618,7 +614,7 @@ function ChartList(props: ChartListProps) {
               key: 'tags',
               id: 'tags',
               input: 'select',
-              operator: FilterOperator.ChartTagById,
+              operator: FilterOperator.ChartTags,
               unfilteredLabel: t('All'),
               fetchSelects: loadTags,
             },
@@ -787,12 +783,14 @@ function ChartList(props: ChartListProps) {
   return (
     <>
       <SubMenu name={t('Charts')} buttons={subMenuButtons} />
-      <PropertiesModal
-        onHide={closeChartEditModal}
-        onSave={handleChartUpdated}
-        show={!!sliceCurrentlyEditing}
-        slice={sliceCurrentlyEditing}
-      />
+      {sliceCurrentlyEditing && (
+        <PropertiesModal
+          onHide={closeChartEditModal}
+          onSave={handleChartUpdated}
+          show
+          slice={sliceCurrentlyEditing}
+        />
+      )}
       <ConfirmStatusChange
         title={t('Please confirm')}
         description={t('Are you sure you want to delete the selected charts?')}

@@ -17,8 +17,6 @@
  * under the License.
  */
 import { normalizeTimestamp, QueryState, t } from '@superset-ui/core';
-import { isEqual, omit } from 'lodash';
-import { shallowEqual } from 'react-redux';
 import * as actions from '../actions/sqlLab';
 import { now } from '../../utils/dates';
 import {
@@ -165,17 +163,8 @@ export default function sqlLabReducer(state = {}, action) {
           ...(action.queryEditor.id !== state.unsavedQueryEditor.id &&
             state.unsavedQueryEditor),
         },
-        destroyedQueryEditors: {
-          ...newState.destroyedQueryEditors,
-          [queryEditor.id]: Date.now(),
-        },
       };
       return newState;
-    },
-    [actions.CLEAR_DESTROYED_QUERY_EDITOR]() {
-      const destroyedQueryEditors = { ...state.destroyedQueryEditors };
-      delete destroyedQueryEditors[action.queryEditorId];
-      return { ...state, destroyedQueryEditors };
     },
     [actions.REMOVE_QUERY]() {
       const newQueries = { ...state.queries };
@@ -698,17 +687,7 @@ export default function sqlLabReducer(state = {}, action) {
                 ? prevState
                 : currentState,
           };
-          if (
-            shallowEqual(
-              omit(newQueries[id], ['extra']),
-              omit(state.queries[id], ['extra']),
-            ) &&
-            isEqual(newQueries[id].extra, state.queries[id].extra)
-          ) {
-            newQueries[id] = state.queries[id];
-          } else {
-            change = true;
-          }
+          change = true;
         }
       });
       if (!change) {

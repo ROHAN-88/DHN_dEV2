@@ -142,7 +142,6 @@ const SliceHeader: FC<SliceHeaderProps> = ({
   supersetCanExplore = false,
   supersetCanShare = false,
   supersetCanCSV = false,
-  exportPivotCSV,
   exportFullCSV,
   exportFullXLSX,
   slice,
@@ -267,7 +266,6 @@ const SliceHeader: FC<SliceHeaderProps> = ({
                 logExploreChart={logExploreChart}
                 logEvent={logEvent}
                 exportCSV={exportCSV}
-                exportPivotCSV={exportPivotCSV}
                 exportFullCSV={exportFullCSV}
                 exportXLSX={exportXLSX}
                 exportFullXLSX={exportFullXLSX}

@@ -40,6 +40,7 @@ export const GlobalStyles = () => (
         border-radius: ${theme.borderRadius}px;
         background: ${theme.colors.primary.base};
         border: none;
+        text-transform: uppercase;
         color: ${theme.colors.grayscale.light5};
         line-height: 1.5715;
         font-size: ${theme.typography.sizes.s}px;
@@ -52,6 +53,7 @@ export const GlobalStyles = () => (
         border-radius: ${theme.borderRadius}px;
         background: ${theme.colors.primary.light4};
         border: none;
+        text-transform: uppercase;
         color: ${theme.colors.primary.dark1};
         line-height: 1.5715;
         font-size: ${theme.typography.sizes.s}px;
@@ -88,16 +90,8 @@ export const GlobalStyles = () => (
           margin-right: 0;
         }
       }
-      [data-test='limit'],
-      [data-test='row_limit'],
-      [data-test='adhoc_filters'],
-      [data-test='contributionMode'],
-      [data-test='truncate_metric'],
-      [data-test='show_empty_columns'],
-      [data-test='viz_type'] {
-        display: none;
-      }
-   
+      [data-test='styled-card'] {
+        border-radius: 20px;
       }
     `}
   />

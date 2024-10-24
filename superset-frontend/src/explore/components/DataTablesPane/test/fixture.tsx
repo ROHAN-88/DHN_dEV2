@@ -73,7 +73,6 @@ export const createDataTablesPaneProps = (sliceId: number) =>
     chartStatus: 'rendered' as ChartStatus,
     onCollapseChange: jest.fn(),
     actions: exploreActions,
-    canDownload: true,
   }) as DataTablesPaneProps;
 
 export const createSamplesPaneProps = ({
@@ -91,7 +90,6 @@ export const createSamplesPaneProps = ({
     queryForce,
     isVisible: true,
     actions: exploreActions,
-    canDownload: true,
   }) as SamplesPaneProps;
 
 export const createResultsPaneOnDashboardProps = ({
@@ -118,5 +116,4 @@ export const createResultsPaneOnDashboardProps = ({
     isVisible: true,
     actions: exploreActions,
     errorMessage,
-    canDownload: true,
   }) as ResultsPaneProps;

@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -17,4 +17,13 @@
  * under the License.
  */
 
-declare module 'ace-builds/src-min-noconflict/mode-sql';
+import { QueryFormColumn, QueryFormData } from '@superset-ui/core';
+import { RotationType } from '../chart/WordCloud';
+
+export type LegacyWordCloudFormData = QueryFormData & {
+  colorScheme: string;
+  rotation?: RotationType;
+  series: QueryFormColumn;
+  sizeFrom?: number;
+  sizeTo: number;
+};

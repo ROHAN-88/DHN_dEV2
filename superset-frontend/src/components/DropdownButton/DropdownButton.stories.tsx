@@ -59,8 +59,7 @@ InteractiveDropdownButton.args = {
 InteractiveDropdownButton.argTypes = {
   placement: {
     defaultValue: 'top',
-    control: { type: 'select' },
-    options: PLACEMENTS,
+    control: { type: 'select', options: PLACEMENTS },
   },
   overlay: {
     defaultValue: menu,

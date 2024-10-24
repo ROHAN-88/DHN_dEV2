@@ -16,12 +16,21 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+declare module 'dom-to-pdf' {
+  interface Image {
+    type: string;
+    quality: number;
+  }
 
-import { ConfigProvider, type ConfigProviderProps } from 'antd-v5';
-import { getTheme, ThemeType } from 'src/theme/index';
+  interface Options {
+    margin: number;
+    filename: string;
+    image: Image;
+    html2canvas: object;
+    excludeClassNames?: string[];
+  }
 
-export const AntdThemeProvider = ({ theme, children }: ConfigProviderProps) => (
-  <ConfigProvider theme={theme || getTheme(ThemeType.LIGHT)} prefixCls="antd5">
-    {children}
-  </ConfigProvider>
-);
+  function domToPdf(elementToPrint: Element, options?: Options): Promise<any>;
+
+  export default domToPdf;
+}

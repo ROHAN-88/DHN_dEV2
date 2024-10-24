@@ -19,7 +19,7 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { List } from 'src/components';
-import { nanoid } from 'nanoid';
+import shortid from 'shortid';
 import { t, withTheme } from '@superset-ui/core';
 import {
   SortableContainer,
@@ -57,7 +57,7 @@ const defaultProps = {
   description: null,
   onChange: () => {},
   placeholder: t('Empty collection'),
-  itemGenerator: () => ({ key: nanoid(11) }),
+  itemGenerator: () => ({ key: shortid.generate() }),
   keyAccessor: o => o.key,
   value: [],
   addTooltip: t('Add an item'),

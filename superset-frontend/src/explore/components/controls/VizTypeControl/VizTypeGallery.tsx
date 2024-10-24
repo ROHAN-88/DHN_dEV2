@@ -37,16 +37,18 @@ import {
   SupersetTheme,
   useTheme,
   chartLabelWeight,
-  chartLabelExplanations,
+  // chartLabelExplanations,
 } from '@superset-ui/core';
 import { AntdCollapse } from 'src/components';
-import { Tooltip } from 'src/components/Tooltip';
+// import { Tooltip } from 'src/components/Tooltip';
 import { Input } from 'src/components/Input';
-import Label from 'src/components/Label';
+// import Label from 'src/components/Label';
 import { usePluginContext } from 'src/components/DynamicPlugins';
 import Icons from 'src/components/Icons';
 import { nativeFilterGate } from 'src/dashboard/components/nativeFilters/utils';
 import scrollIntoView from 'scroll-into-view-if-needed';
+import Hellloworld from 'src/pages/Hellloworld';
+import { isSelect } from 'react-jsonschema-form/lib/utils';
 
 interface VizTypeGalleryProps {
   onChange: (vizType: string | null) => void;
@@ -223,45 +225,43 @@ const DetailsPane = (theme: SupersetTheme) => css`
 
 const DetailsPopulated = (theme: SupersetTheme) => css`
   padding: ${theme.gridUnit * 4}px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: auto auto 1fr;
-  grid-template-areas:
-    'viz-name examples-header'
-    'viz-tags examples'
-    'description examples';
+  display: flex;
+  // grid-template-columns: 1fr 1fr;
+  height: 500px;
+  // grid-template-rows: auto auto 1fr;
+  flex-direction: row;
 `;
 
 // overflow hidden on the details pane and overflow auto on the description
 // (plus grid layout) enables the description to scroll while the header stays in place.
-const TagsWrapper = styled.div`
-  grid-area: viz-tags;
-  width: ${({ theme }) => theme.gridUnit * 120}px;
-  padding-right: ${({ theme }) => theme.gridUnit * 14}px;
-  padding-bottom: ${({ theme }) => theme.gridUnit * 2}px;
-`;
+// const TagsWrapper = styled.div`
+//   grid-area: viz-tags;
+//   width: ${({ theme }) => theme.gridUnit * 120}px;
+//   padding-right: ${({ theme }) => theme.gridUnit * 14}px;
+//   padding-bottom: ${({ theme }) => theme.gridUnit * 2}px;
+// `;
 
-const Description = styled.p`
-  grid-area: description;
-  overflow: auto;
-  padding-right: ${({ theme }) => theme.gridUnit * 14}px;
-  margin: 0;
-`;
+// const Description = styled.p`
+//   grid-area: description;
+//   overflow: auto;
+//   padding-right: ${({ theme }) => theme.gridUnit * 14}px;
+//   margin: 0;
+// `;
 
-const Examples = styled.div`
-  grid-area: examples;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  overflow: auto;
-  gap: ${({ theme }) => theme.gridUnit * 4}px;
+// const Examples = styled.div`
+//   grid-area: examples;
+//   display: flex;
+//   flex-direction: row;
+//   flex-wrap: nowrap;
+//   overflow: auto;
+//   gap: ${({ theme }) => theme.gridUnit * 4}px;
 
-  img {
-    height: 100%;
-    border-radius: ${({ theme }) => theme.gridUnit}px;
-    border: 1px solid ${({ theme }) => theme.colors.grayscale.light2};
-  }
-`;
+//   img {
+//     height: 100%;
+//     border-radius: ${({ theme }) => theme.gridUnit}px;
+//     border: 1px solid ${({ theme }) => theme.colors.grayscale.light2};
+//   }
+// `;
 
 const thumbnailContainerCss = (theme: SupersetTheme) => css`
   cursor: pointer;
@@ -302,6 +302,7 @@ const HighlightLabel = styled.div`
     font-weight: ${theme.typography.weights.bold};
     text-align: center;
     padding: ${theme.gridUnit * 0.5}px ${theme.gridUnit}px;
+    text-transform: uppercase;
     cursor: pointer;
 
     div {
@@ -309,17 +310,16 @@ const HighlightLabel = styled.div`
     }
   `}
 `;
-
 const ThumbnailLabelWrapper = styled.div`
   position: absolute;
   right: ${({ theme }) => theme.gridUnit}px;
   top: ${({ theme }) => theme.gridUnit * 19}px;
 `;
 
-const TitleLabelWrapper = styled.div`
-  display: inline-block !important;
-  margin-left: ${({ theme }) => theme.gridUnit * 2}px;
-`;
+// const TitleLabelWrapper = styled.div`
+//   display: inline-block !important;
+//   margin-left: ${({ theme }) => theme.gridUnit * 2}px;
+// `;
 
 interface ThumbnailProps {
   entry: VizEntry;
@@ -337,6 +337,9 @@ const Thumbnail: FC<ThumbnailProps> = ({
   const theme = useTheme();
   const { key, value: type } = entry;
   const isSelected = selectedViz === entry.key;
+  // if (isSelected === true) {
+  //   console.log(key);
+  // }
 
   return (
     <div
@@ -421,7 +424,7 @@ const Selector: FC<{
       ref={btnRef}
       key={selector}
       name={selector}
-      className={cx(className, isSelected && 'selected')}
+      classNa={cx(className, isSelected && 'selected')}
       onClick={() => onClick(selector, sectionId)}
     >
       {icon}
@@ -651,6 +654,37 @@ export default function VizTypeGallery(props: VizTypeGalleryProps) {
     return [];
   };
 
+  // Tempaltes Data
+  const TempaltesData = [
+    {
+      tname: 'Bar Chart',
+      iframeLink:
+        'http://localhost/superset/explore/p/MZkW8LwW1KD/?standalone=1&viz_type=table&json=true&height=200',
+      chartLink:
+        'http://localhost/explore/?form_data_key=eXBsejcgeK03y6WSFTYZp9XuVkY3eLzvdOQ4188LS8j-Mh6VGo36Mcl8Mg8YzpMN&slice_id=90',
+    },
+    {
+      tname: 'Bar Chart',
+      iframeLink:
+        'http://localhost/superset/explore/p/MZkW8LwW1KD/?standalone=1&viz_type=table&json=true',
+      chartLink:
+        'http://localhost/explore/?form_data_key=eXBsejcgeK03y6WSFTYZp9XuVkY3eLzvdOQ4188LS8j-Mh6VGo36Mcl8Mg8YzpMN&slice_id=90',
+    },
+    {
+      tname: 'Area Chart',
+      iframeLink:
+        'http://localhost/superset/explore/p/GodW2Z7WaDm/?standalone=1&height=400',
+      chartLink:
+        'http://localhost/explore/?form_data_key=8hR3NcCkQ-t8UeZ3qgMCG7W4fNQbNqm_GIYj1CeGK8Jc8TR_dKmQcsCy0G8Vd1Q_&slice_id=114',
+    },
+    {
+      tname: 'Pie Chart',
+      iframeLink:
+        'http://localhost/superset/explore/p/GodW2Z7WaDm/?standalone=1&height=400',
+      chartLink:
+        'http://localhost/explore/?form_data_key=8hR3NcCkQ-t8UeZ3qgMCG7W4fNQbNqm_GIYj1CeGK8Jc8TR_dKmQcsCy0G8Vd1Q_&slice_id=114',
+    },
+  ];
   return (
     <VizPickerLayout
       className={className}
@@ -766,8 +800,9 @@ export default function VizTypeGallery(props: VizTypeGalleryProps) {
             DetailsPopulated(theme),
           ]}
         >
-          <>
-            <SectionTitle
+          {/* // Dev Change Remove component for tempate side */}
+
+          {/* <SectionTitle
               css={css`
                 grid-area: viz-name;
                 position: relative;
@@ -799,33 +834,70 @@ export default function VizTypeGallery(props: VizTypeGalleryProps) {
             <Description>
               {selectedVizMetadata?.description ||
                 t('No description available.')}
-            </Description>
-            <SectionTitle
-              css={css`
-                grid-area: examples-header;
-              `}
-            >
-              {t('Examples')}
+            </Description> */}
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <SectionTitle>
+              <h3 style={{ width: '100%' }}> {t('Templates')}</h3>{' '}
             </SectionTitle>
-            <Examples>
-              {(selectedVizMetadata?.exampleGallery?.length
-                ? selectedVizMetadata.exampleGallery
-                : [
-                    {
-                      url: selectedVizMetadata?.thumbnail,
-                      caption: selectedVizMetadata?.name,
-                    },
-                  ]
-              ).map(example => (
-                <img
-                  key={example.url}
-                  src={example.url}
-                  alt={example.caption}
-                  title={example.caption}
-                />
-              ))}
-            </Examples>
-          </>
+          </div>
+
+          <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' }}>
+            {selectedVizMetadata &&
+              TempaltesData.filter(
+                name => name.tname === selectedVizMetadata?.name,
+              ).map(item => {
+                const hello = 'name';
+                return (
+                  <div
+                    style={{
+                      position: 'relative',
+                      width: '300px',
+                      height: '200px',
+                    }}
+                  >
+                    {console.log(selectedVizMetadata)}
+                    <a
+                      href={item.chartLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        zIndex: 10,
+                      }}
+                    >
+                      {/* Optional: Add a message for accessibility */}
+                      <span style={{ display: 'none' }}>
+                        Click here to visit the link
+                      </span>
+                    </a>
+                    <iframe
+                      title="hello"
+                      width="200"
+                      height="200"
+                      seamless
+                      frameBorder="0"
+                      scrolling="no"
+                      src={item.iframeLink}
+                    />
+                  </div>
+                );
+              })}
+          </div>
+          {/* {(selectedVizMetadata?.exampleGallery
+            ? selectedVizMetadata.exampleGallery
+            : [
+                {
+                  url: selectedVizMetadata?.thumbnail,
+                  caption: selectedVizMetadata?.name,
+                },
+              ]
+          ).map(example => (
+            <div>Hello</div>
+          ))} */}
         </div>
       ) : null}
     </VizPickerLayout>

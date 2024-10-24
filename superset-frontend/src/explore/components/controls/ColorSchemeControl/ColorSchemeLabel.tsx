@@ -31,17 +31,17 @@ export default function ColorSchemeLabel(props: ColorSchemeLabelProps) {
   const { id, label, colors } = props;
   const [showTooltip, setShowTooltip] = useState<boolean>(false);
   const labelNameRef = useRef<HTMLElement>(null);
-  const labelsColorRef = useRef<HTMLElement>(null);
+  const labelColorsRef = useRef<HTMLElement>(null);
   const handleShowTooltip = () => {
     const labelNameElement = labelNameRef.current;
-    const labelsColorElement = labelsColorRef.current;
+    const labelColorsElement = labelColorsRef.current;
     if (
       labelNameElement &&
-      labelsColorElement &&
+      labelColorsElement &&
       (labelNameElement.scrollWidth > labelNameElement.offsetWidth ||
         labelNameElement.scrollHeight > labelNameElement.offsetHeight ||
-        labelsColorElement.scrollWidth > labelsColorElement.offsetWidth ||
-        labelsColorElement.scrollHeight > labelsColorElement.offsetHeight)
+        labelColorsElement.scrollWidth > labelColorsElement.offsetWidth ||
+        labelColorsElement.scrollHeight > labelColorsElement.offsetHeight)
     ) {
       setShowTooltip(true);
     }
@@ -109,7 +109,7 @@ export default function ColorSchemeLabel(props: ColorSchemeLabelProps) {
           {label}
         </span>
         <span
-          ref={labelsColorRef}
+          ref={labelColorsRef}
           css={(theme: SupersetTheme) => css`
             flex: 100%;
             text-overflow: ellipsis;

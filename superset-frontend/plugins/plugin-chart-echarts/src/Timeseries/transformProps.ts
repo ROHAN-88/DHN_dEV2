@@ -47,9 +47,8 @@ import {
   isDerivedSeries,
   getTimeOffset,
 } from '@superset-ui/chart-controls';
-import type { EChartsCoreOption } from 'echarts/core';
-import type { LineStyleOption } from 'echarts/types/src/util/types';
-import type { SeriesOption } from 'echarts';
+import { EChartsCoreOption, SeriesOption } from 'echarts';
+import { LineStyleOption } from 'echarts/types/src/util/types';
 import {
   EchartsTimeseriesChartProps,
   EchartsTimeseriesFormData,
@@ -313,11 +312,11 @@ export default function transformProps(
         stack,
         formatter: forcePercentFormatter
           ? percentFormatter
-          : (getCustomFormatter(
+          : getCustomFormatter(
               customFormatters,
               metrics,
               labelMap?.[seriesName]?.[0],
-            ) ?? defaultFormatter),
+            ) ?? defaultFormatter,
         showValue,
         onlyTotal,
         totalStackedValues: sortedTotalValues,
@@ -519,6 +518,7 @@ export default function transformProps(
   if (isHorizontal) {
     [xAxis, yAxis] = [yAxis, xAxis];
     [padding.bottom, padding.left] = [padding.left, padding.bottom];
+    yAxis.inverse = true;
   }
 
   const echartOptions: EChartsCoreOption = {
@@ -554,7 +554,7 @@ export default function transformProps(
 
         const formatter = forcePercentFormatter
           ? percentFormatter
-          : (getCustomFormatter(customFormatters, metrics) ?? defaultFormatter);
+          : getCustomFormatter(customFormatters, metrics) ?? defaultFormatter;
 
         const rows: string[][] = [];
         const total = Object.values(forecastValues).reduce(

@@ -73,12 +73,11 @@ const FilterPopoverContentContainer = styled.div`
 
   .filter-edit-clause-info {
     font-size: ${({ theme }) => theme.typography.sizes.xs}px;
+    padding-left: ${({ theme }) => theme.gridUnit}px;
   }
 
   .filter-edit-clause-section {
-    display: flex;
-    flex-direction: row;
-    gap: ${({ theme }) => theme.gridUnit * 5}px;
+    display: inline-flex;
   }
 
   .adhoc-filter-simple-column-dropdown {

@@ -46,7 +46,7 @@ export interface ColorSchemes {
 }
 
 export interface ColorSchemeControlProps {
-  hasCustomLabelsColor: boolean;
+  hasCustomLabelColors: boolean;
   dashboardId?: number;
   label: string;
   name: string;
@@ -75,14 +75,14 @@ const DASHBOARD_ALERT = t(
 
 const Label = ({
   label,
-  hasCustomLabelsColor,
+  hasCustomLabelColors,
   dashboardId,
 }: Pick<
   ColorSchemeControlProps,
-  'label' | 'hasCustomLabelsColor' | 'dashboardId'
+  'label' | 'hasCustomLabelColors' | 'dashboardId'
 >) => {
-  if (hasCustomLabelsColor || dashboardId) {
-    const alertTitle = hasCustomLabelsColor
+  if (hasCustomLabelColors || dashboardId) {
+    const alertTitle = hasCustomLabelColors
       ? CUSTOM_LABEL_ALERT
       : DASHBOARD_ALERT;
     return (
@@ -98,7 +98,7 @@ const Label = ({
 };
 
 const ColorSchemeControl = ({
-  hasCustomLabelsColor = false,
+  hasCustomLabelColors = false,
   dashboardId,
   label = t('Color scheme'),
   onChange = () => {},
@@ -231,7 +231,7 @@ const ColorSchemeControl = ({
         label={
           <Label
             label={label}
-            hasCustomLabelsColor={hasCustomLabelsColor}
+            hasCustomLabelColors={hasCustomLabelColors}
             dashboardId={dashboardId}
           />
         }

@@ -348,10 +348,6 @@ const RightMenu = ({
 
   const handleDatabaseAdd = () => setQuery({ databaseAdded: true });
 
-  const handleLogout = () => {
-    localStorage.removeItem('redux');
-  };
-
   const theme = useTheme();
 
   return (
@@ -516,7 +512,7 @@ const RightMenu = ({
                   <a href={navbarRight.user_info_url}>{t('Info')}</a>
                 </Menu.Item>
               )}
-              <Menu.Item key="logout" onClick={handleLogout}>
+              <Menu.Item key="logout">
                 <a href={navbarRight.user_logout_url}>{t('Logout')}</a>
               </Menu.Item>
             </Menu.ItemGroup>,

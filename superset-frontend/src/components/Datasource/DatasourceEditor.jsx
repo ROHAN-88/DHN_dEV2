@@ -23,7 +23,7 @@ import { Radio } from 'src/components/Radio';
 import Card from 'src/components/Card';
 import Alert from 'src/components/Alert';
 import Badge from 'src/components/Badge';
-import { nanoid } from 'nanoid';
+import shortid from 'shortid';
 import {
   css,
   isFeatureEnabled,
@@ -94,7 +94,7 @@ const StyledTableTabs = styled(Tabs)`
 `;
 
 const StyledBadge = styled(Badge)`
-  .antd5-badge-count {
+  .ant-badge-count {
     line-height: ${({ theme }) => theme.gridUnit * 4}px;
     height: ${({ theme }) => theme.gridUnit * 4}px;
     margin-left: ${({ theme }) => theme.gridUnit}px;
@@ -718,7 +718,7 @@ class DatasourceEditor extends PureComponent {
       if (!currentCol) {
         // new column
         finalColumns.push({
-          id: nanoid(),
+          id: shortid.generate(),
           column_name: col.column_name,
           type: col.type,
           groupby: true,
@@ -1086,7 +1086,7 @@ class DatasourceEditor extends PureComponent {
                   <Col xs={24} md={12}>
                     <Field
                       fieldKey="databaseSelector"
-                      label={t('Virtual')}
+                      label={t('virtual')}
                       control={
                         <div css={{ marginTop: 8 }}>
                           <DatabaseSelector

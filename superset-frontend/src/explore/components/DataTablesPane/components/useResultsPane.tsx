@@ -47,7 +47,6 @@ export const useResultsPane = ({
   actions,
   isVisible,
   dataSize = 50,
-  canDownload,
 }: ResultsPaneProps): ReactElement[] => {
   const metadata = getChartMetadataRegistry().get(
     queryFormData?.viz_type || queryFormData?.vizType,
@@ -125,7 +124,6 @@ export const useResultsPane = ({
           datasourceId={queryFormData.datasource}
           onInputChange={() => {}}
           isLoading={false}
-          canDownload={canDownload}
         />
         <Error>{responseError}</Error>
       </>
@@ -151,7 +149,6 @@ export const useResultsPane = ({
         datasourceId={queryFormData.datasource}
         key={idx}
         isVisible={isVisible}
-        canDownload={canDownload}
       />
     ));
 };

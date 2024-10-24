@@ -119,7 +119,7 @@ describe('DashboardList', () => {
     .mockImplementation(feature => feature === 'LISTVIEWS_DEFAULT_CARD_VIEW');
 
   afterAll(() => {
-    isFeatureEnabledMock.mockRestore();
+    isFeatureEnabledMock.restore();
   });
 
   beforeEach(() => {
@@ -282,7 +282,7 @@ describe('DashboardList - anonymous view', () => {
 
   afterAll(() => {
     cleanup();
-    fetchMock.reset();
+    fetch.resetMocks();
   });
 
   it('does not render the Favorite Star column in list view for anonymous user', async () => {

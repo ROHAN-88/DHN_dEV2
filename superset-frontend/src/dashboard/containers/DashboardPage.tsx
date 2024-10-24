@@ -19,7 +19,13 @@
 import { createContext, lazy, FC, useEffect, useMemo, useRef } from 'react';
 import { Global } from '@emotion/react';
 import { useHistory } from 'react-router-dom';
-import { t, useTheme } from '@superset-ui/core';
+import {
+  CategoricalColorNamespace,
+  getSharedLabelColor,
+  SharedLabelColorSource,
+  t,
+  useTheme,
+} from '@superset-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { useToasts } from 'src/components/MessageToasts/withToasts';
 import Loading from 'src/components/Loading';
@@ -42,7 +48,7 @@ import {
 } from 'src/dashboard/components/nativeFilters/FilterBar/keyValue';
 import DashboardContainer from 'src/dashboard/containers/Dashboard';
 
-import { nanoid } from 'nanoid';
+import shortid from 'shortid';
 import { RootState } from '../types';
 import {
   chartContextMenuStyles,
@@ -76,7 +82,7 @@ export const DashboardPage: FC<PageProps> = ({ idOrSlug }: PageProps) => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const history = useHistory();
-  const dashboardPageId = useMemo(() => nanoid(), []);
+  const dashboardPageId = useMemo(() => shortid.generate(), []);
   const hasDashboardInfoInitiated = useSelector<RootState, Boolean>(
     ({ dashboardInfo }) =>
       dashboardInfo && Object.keys(dashboardInfo).length > 0,
@@ -95,7 +101,7 @@ export const DashboardPage: FC<PageProps> = ({ idOrSlug }: PageProps) => {
 
   const error = dashboardApiError || chartsApiError;
   const readyToRender = Boolean(dashboard && charts);
-  const { dashboard_title, css, id = 0 } = dashboard || {};
+  const { dashboard_title, css, metadata, id = 0 } = dashboard || {};
 
   useEffect(() => {
     // mark tab id as redundant when user closes browser tab - a new id will be
@@ -180,6 +186,19 @@ export const DashboardPage: FC<PageProps> = ({ idOrSlug }: PageProps) => {
     }
     return () => {};
   }, [css]);
+
+  useEffect(() => {
+    const sharedLabelColor = getSharedLabelColor();
+    sharedLabelColor.source = SharedLabelColorSource.Dashboard;
+    return () => {
+      // clean up label color
+      const categoricalNamespace = CategoricalColorNamespace.getNamespace(
+        metadata?.color_namespace,
+      );
+      categoricalNamespace.resetColors();
+      sharedLabelColor.clear();
+    };
+  }, [metadata?.color_namespace]);
 
   useEffect(() => {
     if (datasetsApiError) {

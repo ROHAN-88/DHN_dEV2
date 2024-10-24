@@ -33,7 +33,7 @@ const HoverStyleOverrides = styled.div`
   .hover-menu {
     opacity: 0;
     position: absolute;
-    z-index: 11; // one more than DragDroppable
+    z-index: 10;
     font-size: ${({ theme }) => theme.typography.sizes.m};
   }
 

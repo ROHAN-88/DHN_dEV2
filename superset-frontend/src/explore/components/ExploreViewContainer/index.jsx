@@ -711,10 +711,11 @@ function ExploreViewContainer(props) {
 
 ExploreViewContainer.propTypes = propTypes;
 
-const retainQueryModeRequirements = hiddenFormData =>
+const retainQueryModeRequirements = hiddenFormData => {
   Object.keys(hiddenFormData ?? {}).filter(
     key => !QUERY_MODE_REQUISITES.has(key),
   );
+};
 
 function mapStateToProps(state) {
   const {
@@ -731,7 +732,7 @@ function mapStateToProps(state) {
   const hasQueryMode = !!controls.query_mode?.value;
   const fieldsToOmit = hasQueryMode
     ? retainQueryModeRequirements(hiddenFormData)
-    : Object.keys(hiddenFormData ?? {});
+    : hiddenFormData;
   const form_data = omit(getFormDataFromControls(controls), fieldsToOmit);
   const slice_id = form_data.slice_id ?? slice?.slice_id ?? 0; // 0 - unsaved chart
   form_data.extra_form_data = mergeExtraFormData(

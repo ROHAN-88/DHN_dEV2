@@ -48,13 +48,8 @@ function DefaultSelectRenderer({
           const [size, text] = Array.isArray(option)
             ? option
             : [option, option];
-          const sizeLabel = size === 0 ? t('all') : size;
           return (
-            <option
-              aria-label={t('Show %s entries', sizeLabel)}
-              key={size}
-              value={size}
-            >
+            <option key={size} value={size}>
               {text}
             </option>
           );

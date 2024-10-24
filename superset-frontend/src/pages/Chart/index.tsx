@@ -20,11 +20,11 @@ import { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import {
-  getLabelsColorMap,
+  getSharedLabelColor,
   isDefined,
   JsonObject,
   makeApi,
-  LabelsColorMapSource,
+  SharedLabelColorSource,
   t,
   getClientErrorObject,
 } from '@superset-ui/core';
@@ -84,8 +84,8 @@ const getDashboardContextFormData = () => {
   if (dashboardContext) {
     const sliceId = getUrlParam(URL_PARAMS.sliceId) || 0;
     const {
-      labelsColor,
-      labelsColorMap,
+      labelColors,
+      sharedLabelColors,
       colorScheme,
       chartConfiguration,
       nativeFilters,
@@ -100,8 +100,8 @@ const getDashboardContextFormData = () => {
       chartConfiguration,
       colorScheme,
       dataMask,
-      labelsColor,
-      labelsColorMap,
+      labelColors,
+      sharedLabelColors,
       sliceId,
       allSliceIds: [sliceId],
       extraControls: {},
@@ -151,7 +151,7 @@ export default function ExplorePage() {
           isExploreInitialized.current = true;
         });
     }
-    getLabelsColorMap().source = LabelsColorMapSource.Explore;
+    getSharedLabelColor().source = SharedLabelColorSource.Explore;
   }, [dispatch, location]);
 
   if (!isLoaded) {

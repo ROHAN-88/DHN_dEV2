@@ -19,7 +19,7 @@
 
 import { styled } from '@superset-ui/core';
 import TagType from 'src/types/TagType';
-import { Tag as AntdTag } from 'antd-v5';
+import AntdTag from 'antd/lib/tag';
 import { useMemo } from 'react';
 import { Tooltip } from 'src/components/Tooltip';
 import { CloseOutlined } from '@ant-design/icons';
@@ -28,6 +28,7 @@ const StyledTag = styled(AntdTag)`
   ${({ theme }) => `
   margin-top: ${theme.gridUnit}px;
   margin-bottom: ${theme.gridUnit}px;
+  font-size: ${theme.typography.sizes.s}px;
   `};
 `;
 

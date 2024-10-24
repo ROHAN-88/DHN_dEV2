@@ -25,10 +25,12 @@ import Button from 'src/components/Button';
 import { AntdForm, AsyncSelect, Col, Row } from 'src/components';
 import rison from 'rison';
 import {
+  CategoricalColorNamespace,
   ensureIsArray,
   isFeatureEnabled,
   FeatureFlag,
   getCategoricalSchemeRegistry,
+  getSharedLabelColor,
   styled,
   SupersetClient,
   t,
@@ -44,7 +46,6 @@ import withToasts from 'src/components/MessageToasts/withToasts';
 import TagType from 'src/types/TagType';
 import { fetchTags, OBJECT_TYPES } from 'src/features/tags/tags';
 import { loadTags } from 'src/components/Tags/utils';
-import { applyColors, getColorNamespace } from 'src/utils/colorScheme';
 
 const StyledFormItem = styled(FormItem)`
   margin-bottom: 0;
@@ -306,6 +307,7 @@ const PropertiesModal = ({
     const { title, slug, certifiedBy, certificationDetails } =
       form.getFieldsValue();
     let currentColorScheme = colorScheme;
+    let colorNamespace = '';
     let currentJsonMetadata = jsonMetadata;
 
     // validate currentJsonMetadata
@@ -323,13 +325,11 @@ const PropertiesModal = ({
       return;
     }
 
-    const copyMetadata = { ...metadata };
-    const colorNamespace = getColorNamespace(metadata?.color_namespace);
-
     // color scheme in json metadata has precedence over selection
     currentColorScheme = metadata?.color_scheme || colorScheme;
+    colorNamespace = metadata?.color_namespace;
 
-    // remove information from user facing input
+    // filter shared_label_color from user input
     if (metadata?.shared_label_colors) {
       delete metadata.shared_label_colors;
     }
@@ -337,8 +337,22 @@ const PropertiesModal = ({
       delete metadata.color_scheme_domain;
     }
 
-    // only apply colors, the user has not saved yet
-    applyColors(copyMetadata, true);
+    const sharedLabelColor = getSharedLabelColor();
+    const categoricalNamespace =
+      CategoricalColorNamespace.getNamespace(colorNamespace);
+    categoricalNamespace.resetColors();
+    if (currentColorScheme) {
+      sharedLabelColor.updateColorMap(colorNamespace, currentColorScheme);
+      metadata.shared_label_colors = Object.fromEntries(
+        sharedLabelColor.getColorMap(),
+      );
+      metadata.color_scheme_domain =
+        categoricalSchemeRegistry.get(colorScheme)?.colors || [];
+    } else {
+      sharedLabelColor.reset();
+      metadata.shared_label_colors = {};
+      metadata.color_scheme_domain = [];
+    }
 
     currentJsonMetadata = jsonStringify(metadata);
 
@@ -396,7 +410,7 @@ const PropertiesModal = ({
 
   const getRowsWithoutRoles = () => {
     const jsonMetadataObj = getJsonMetadata();
-    const hasCustomLabelsColor = !!Object.keys(
+    const hasCustomLabelColors = !!Object.keys(
       jsonMetadataObj?.label_colors || {},
     ).length;
 
@@ -426,7 +440,7 @@ const PropertiesModal = ({
         <Col xs={24} md={12}>
           <h3 style={{ marginTop: '1em' }}>{t('Colors')}</h3>
           <ColorSchemeControlWrapper
-            hasCustomLabelsColor={hasCustomLabelsColor}
+            hasCustomLabelColors={hasCustomLabelColors}
             onChange={onColorSchemeChange}
             colorScheme={colorScheme}
             labelMargin={4}
@@ -438,7 +452,7 @@ const PropertiesModal = ({
 
   const getRowsWithRoles = () => {
     const jsonMetadataObj = getJsonMetadata();
-    const hasCustomLabelsColor = !!Object.keys(
+    const hasCustomLabelColors = !!Object.keys(
       jsonMetadataObj?.label_colors || {},
     ).length;
 
@@ -495,7 +509,7 @@ const PropertiesModal = ({
         <Row>
           <Col xs={24} md={12}>
             <ColorSchemeControlWrapper
-              hasCustomLabelsColor={hasCustomLabelsColor}
+              hasCustomLabelColors={hasCustomLabelColors}
               onChange={onColorSchemeChange}
               colorScheme={colorScheme}
               labelMargin={4}

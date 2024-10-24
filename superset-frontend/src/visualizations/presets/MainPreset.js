@@ -61,7 +61,6 @@ import {
   EchartsHistogramChartPlugin,
   EchartsRadarChartPlugin,
   EchartsFunnelChartPlugin,
-  EchartsSankeyChartPlugin,
   EchartsTreemapChartPlugin,
   EchartsMixedTimeseriesChartPlugin,
   EchartsTreeChartPlugin,
@@ -71,6 +70,7 @@ import {
   BigNumberPeriodOverPeriodChartPlugin,
   EchartsHeatmapChartPlugin,
 } from '@superset-ui/plugin-chart-echarts';
+
 import {
   SelectFilterPlugin,
   RangeFilterPlugin,
@@ -113,7 +113,6 @@ export default class MainPreset extends Preset {
         new DistBarChartPlugin().configure({ key: 'dist_bar' }),
         new EventFlowChartPlugin().configure({ key: 'event_flow' }),
         new EchartsFunnelChartPlugin().configure({ key: 'funnel' }),
-        new EchartsSankeyChartPlugin().configure({ key: 'sankey_v2' }),
         new EchartsTreemapChartPlugin().configure({ key: 'treemap_v2' }),
         new EchartsGaugeChartPlugin().configure({ key: 'gauge_chart' }),
         new EchartsGraphChartPlugin().configure({ key: 'graph_chart' }),
@@ -121,6 +120,7 @@ export default class MainPreset extends Preset {
         new EchartsMixedTimeseriesChartPlugin().configure({
           key: 'mixed_timeseries',
         }),
+
         new HeatmapChartPlugin().configure({ key: 'heatmap' }),
         new HistogramChartPlugin().configure({ key: 'histogram' }),
         new HorizonChartPlugin().configure({ key: 'horizon' }),
@@ -162,6 +162,7 @@ export default class MainPreset extends Preset {
         new EchartsWaterfallChartPlugin().configure({
           key: 'waterfall',
         }),
+
         new EchartsHeatmapChartPlugin().configure({ key: 'heatmap_v2' }),
         new EchartsHistogramChartPlugin().configure({ key: 'histogram_v2' }),
         new SelectFilterPlugin().configure({ key: FilterPlugins.Select }),

@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { useArgs } from '@storybook/preview-api';
+import { useArgs } from '@storybook/client-api';
 import { Switch, SwitchProps } from '.';
 
 export default {
@@ -44,7 +44,6 @@ InteractiveSwitch.args = {
 InteractiveSwitch.argTypes = {
   size: {
     defaultValue: 'default',
-    control: { type: 'radio' },
-    options: ['small', 'default'],
+    control: { type: 'radio', options: ['small', 'default'] },
   },
 };

@@ -77,7 +77,7 @@ export function useKeywords(
   // skipFetch is used to prevent re-evaluating memoized keywords
   // due to updated api results by skip flag
   const skipFetch = hasFetchedKeywords && skip;
-  const { currentData: schemaOptions } = useSchemasQueryState(
+  const { data: schemaOptions } = useSchemasQueryState(
     {
       dbId,
       catalog: catalog || undefined,
@@ -85,7 +85,7 @@ export function useKeywords(
     },
     { skip: skipFetch || !dbId },
   );
-  const { currentData: tableData } = useTablesQueryState(
+  const { data: tableData } = useTablesQueryState(
     {
       dbId,
       catalog,
@@ -95,7 +95,7 @@ export function useKeywords(
     { skip: skipFetch || !dbId || !schema },
   );
 
-  const { currentData: functionNames, isError } = useDatabaseFunctionsQuery(
+  const { data: functionNames, isError } = useDatabaseFunctionsQuery(
     { dbId },
     { skip: skipFetch || !dbId },
   );

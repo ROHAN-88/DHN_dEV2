@@ -27,9 +27,8 @@ import {
   getValueFormatter,
   tooltipHtml,
 } from '@superset-ui/core';
-import type { TreemapSeriesNodeItemOption } from 'echarts/types/src/chart/treemap/TreemapSeries';
-import type { EChartsCoreOption } from 'echarts/core';
-import type { TreemapSeriesOption } from 'echarts/charts';
+import { TreemapSeriesNodeItemOption } from 'echarts/types/src/chart/treemap/TreemapSeries';
+import { EChartsCoreOption, TreemapSeriesOption } from 'echarts';
 import {
   DEFAULT_FORM_DATA as DEFAULT_TREEMAP_FORM_DATA,
   EchartsTreemapChartProps,
@@ -184,7 +183,7 @@ export default function transformProps(
           colorSaturation: COLOR_SATURATION,
           itemStyle: {
             borderColor: BORDER_COLOR,
-            color: colorFn(name, sliceId, colorScheme),
+            color: colorFn(name, sliceId),
             borderWidth: BORDER_WIDTH,
             gapWidth: GAP_WIDTH,
           },
@@ -217,7 +216,7 @@ export default function transformProps(
       colorSaturation: COLOR_SATURATION,
       itemStyle: {
         borderColor: BORDER_COLOR,
-        color: colorFn(`${metricLabel}`, sliceId, colorScheme),
+        color: colorFn(`${metricLabel}`, sliceId),
         borderWidth: BORDER_WIDTH,
         gapWidth: GAP_WIDTH,
       },

@@ -156,6 +156,7 @@ export const StyledModal = styled(BaseModal)<StyledModalProps>`
 
     .btn {
       font-size: 12px;
+      text-transform: uppercase;
     }
 
     .btn + .btn {

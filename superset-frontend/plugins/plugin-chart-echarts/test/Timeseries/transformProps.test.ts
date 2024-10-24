@@ -119,6 +119,7 @@ describe('EchartsTimeseries transformProps', () => {
               name: 'New York',
             }),
           ]),
+          yAxis: expect.objectContaining({ inverse: true }),
         }),
       }),
     );

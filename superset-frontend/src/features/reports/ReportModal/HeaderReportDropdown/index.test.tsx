@@ -137,7 +137,8 @@ describe('Header Report Dropdown', () => {
   });
 
   afterAll(() => {
-    isFeatureEnabledMock.mockRestore();
+    // @ts-ignore
+    isFeatureEnabledMock.restore();
   });
 
   it('renders correctly', () => {

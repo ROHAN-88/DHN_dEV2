@@ -16,10 +16,12 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+/* eslint no-unused-expressions: 0 */
 import sinon from 'sinon';
 import fetchMock from 'fetch-mock';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
+import shortid from 'shortid';
 import { waitFor } from '@testing-library/react';
 import * as uiCore from '@superset-ui/core';
 import * as actions from 'src/SqlLab/actions/sqlLab';
@@ -33,14 +35,6 @@ import {
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
-
-jest.mock('nanoid', () => ({
-  nanoid: () => 'abcd',
-}));
-
-afterAll(() => {
-  jest.resetAllMocks();
-});
 
 describe('getUpToDateQuery', () => {
   test('should return the up to date query editor state', () => {
@@ -354,6 +348,14 @@ describe('async actions', () => {
   });
 
   describe('reRunQuery', () => {
+    let stub;
+    beforeEach(() => {
+      stub = sinon.stub(shortid, 'generate').returns('abcd');
+    });
+    afterEach(() => {
+      stub.restore();
+    });
+
     it('creates new query with a new id', () => {
       const id = 'id';
       const state = {
@@ -411,6 +413,14 @@ describe('async actions', () => {
   });
 
   describe('cloneQueryToNewTab', () => {
+    let stub;
+    beforeEach(() => {
+      stub = sinon.stub(shortid, 'generate').returns('abcd');
+    });
+    afterEach(() => {
+      stub.restore();
+    });
+
     it('creates new query editor', () => {
       expect.assertions(1);
 
@@ -453,6 +463,14 @@ describe('async actions', () => {
   });
 
   describe('addQueryEditor', () => {
+    let stub;
+    beforeEach(() => {
+      stub = sinon.stub(shortid, 'generate').returns('abcd');
+    });
+    afterEach(() => {
+      stub.restore();
+    });
+
     it('creates new query editor', () => {
       expect.assertions(1);
 
@@ -560,6 +578,14 @@ describe('async actions', () => {
     afterEach(fetchMock.resetHistory);
 
     describe('addQueryEditor', () => {
+      let stub;
+      beforeEach(() => {
+        stub = sinon.stub(shortid, 'generate').returns('abcd');
+      });
+      afterEach(() => {
+        stub.restore();
+      });
+
       it('creates the tab state in the local storage', () => {
         expect.assertions(2);
 
@@ -584,7 +610,7 @@ describe('async actions', () => {
 
     describe('removeQueryEditor', () => {
       it('updates the tab state in the backend', () => {
-        expect.assertions(1);
+        expect.assertions(2);
 
         const store = mockStore({});
         const expectedActions = [
@@ -593,8 +619,12 @@ describe('async actions', () => {
             queryEditor,
           },
         ];
-        store.dispatch(actions.removeQueryEditor(queryEditor));
-        expect(store.getActions()).toEqual(expectedActions);
+        return store
+          .dispatch(actions.removeQueryEditor(queryEditor))
+          .then(() => {
+            expect(store.getActions()).toEqual(expectedActions);
+            expect(fetchMock.calls(updateTabStateEndpoint)).toHaveLength(1);
+          });
       });
     });
 

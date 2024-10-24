@@ -348,7 +348,11 @@ export class ChartCreation extends PureComponent<
             }
           />
           <Steps.Step
-            title={<StyledStepTitle>{t('Choose chart type')}</StyledStepTitle>}
+            title={
+              <StyledStepTitle>
+                {t('Choose chartType & Templates')}
+              </StyledStepTitle>
+            }
             status={this.state.vizType ? 'finish' : 'process'}
             description={
               <StyledStepDescription>

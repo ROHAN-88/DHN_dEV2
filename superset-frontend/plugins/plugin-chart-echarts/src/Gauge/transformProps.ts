@@ -26,10 +26,9 @@ import {
   getValueFormatter,
   tooltipHtml,
 } from '@superset-ui/core';
-import type { EChartsCoreOption } from 'echarts/core';
-import type { GaugeSeriesOption } from 'echarts/charts';
-import type { GaugeDataItemOption } from 'echarts/types/src/chart/gauge/GaugeSeries';
-import type { CallbackDataParams } from 'echarts/types/src/util/types';
+import { EChartsCoreOption, GaugeSeriesOption } from 'echarts';
+import { GaugeDataItemOption } from 'echarts/types/src/chart/gauge/GaugeSeries';
+import { CallbackDataParams } from 'echarts/types/src/util/types';
 import { range } from 'lodash';
 import { parseNumbersList } from '../utils/controls';
 import {
@@ -174,7 +173,7 @@ export default function transformProps(
         value: data_point[metricLabel] as number,
         name,
         itemStyle: {
-          color: colorFn(index, sliceId, colorScheme),
+          color: colorFn(index, sliceId),
         },
         title: {
           offsetCenter: [
@@ -202,7 +201,7 @@ export default function transformProps(
         item = {
           ...item,
           itemStyle: {
-            color: colorFn(index, sliceId, colorScheme),
+            color: colorFn(index, sliceId),
             opacity: OpacityEnum.SemiTransparent,
           },
           detail: {

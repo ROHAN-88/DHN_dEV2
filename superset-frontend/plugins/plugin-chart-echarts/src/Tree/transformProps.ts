@@ -21,13 +21,12 @@ import {
   DataRecordValue,
   tooltipHtml,
 } from '@superset-ui/core';
-import type { EChartsCoreOption } from 'echarts/core';
-import type { TreeSeriesOption } from 'echarts/charts';
-import type {
+import { EChartsCoreOption, TreeSeriesOption } from 'echarts';
+import {
   TreeSeriesCallbackDataParams,
   TreeSeriesNodeItemOption,
 } from 'echarts/types/src/chart/tree/TreeSeries';
-import type { OptionName } from 'echarts/types/src/util/types';
+import { OptionName } from 'echarts/types/src/util/types';
 import {
   EchartsTreeChartProps,
   EchartsTreeFormData,

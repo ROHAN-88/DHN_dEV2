@@ -31,6 +31,7 @@ const StyledDropdownButton = styled.div`
       font-size: 12px;
       line-height: 13px;
       outline: none;
+      text-transform: uppercase;
       &:first-of-type {
         border-radius: ${({ theme }) =>
           `${theme.gridUnit}px 0 0 ${theme.gridUnit}px`};

@@ -78,7 +78,6 @@ function mapStateToProps(
     editMode: dashboardState.editMode,
     filters: getActiveFilters(),
     dashboardId: dashboardInfo.id,
-    dashboardInfo,
     fullSizeChartId: dashboardState.fullSizeChartId,
   };
 

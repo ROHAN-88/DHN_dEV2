@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { nanoid } from 'nanoid';
+import shortid from 'shortid';
 import rison from 'rison';
 import {
   FeatureFlag,
@@ -103,7 +103,6 @@ export const CREATE_DATASOURCE_FAILED = 'CREATE_DATASOURCE_FAILED';
 
 export const SET_EDITOR_TAB_LAST_UPDATE = 'SET_EDITOR_TAB_LAST_UPDATE';
 export const SET_LAST_UPDATED_ACTIVE_TAB = 'SET_LAST_UPDATED_ACTIVE_TAB';
-export const CLEAR_DESTROYED_QUERY_EDITOR = 'CLEAR_DESTROYED_QUERY_EDITOR';
 
 export const addInfoToast = addInfoToastAction;
 export const addSuccessToast = addSuccessToastAction;
@@ -239,7 +238,7 @@ export function clearInactiveQueries(interval) {
 
 export function startQuery(query) {
   Object.assign(query, {
-    id: query.id ? query.id : nanoid(11),
+    id: query.id ? query.id : shortid.generate(),
     progress: 0,
     startDttm: now(),
     state: query.runAsync ? 'pending' : 'running',
@@ -404,7 +403,7 @@ export function runQueryFromSqlEditor(
 export function reRunQuery(query) {
   // run Query with a new id
   return function (dispatch) {
-    dispatch(runQuery({ ...query, id: nanoid(11) }));
+    dispatch(runQuery({ ...query, id: shortid.generate() }));
   };
 }
 
@@ -534,7 +533,7 @@ export function syncQueryEditor(queryEditor) {
 export function addQueryEditor(queryEditor) {
   const newQueryEditor = {
     ...queryEditor,
-    id: nanoid(11),
+    id: shortid.generate().toString(),
     loaded: true,
     inLocalStorage: true,
   };
@@ -716,12 +715,29 @@ export function toggleLeftBar(queryEditor) {
   };
 }
 
-export function clearDestoryedQueryEditor(queryEditorId) {
-  return { type: CLEAR_DESTROYED_QUERY_EDITOR, queryEditorId };
-}
-
 export function removeQueryEditor(queryEditor) {
-  return { type: REMOVE_QUERY_EDITOR, queryEditor };
+  return function (dispatch) {
+    const sync = isFeatureEnabled(FeatureFlag.SqllabBackendPersistence)
+      ? SupersetClient.delete({
+          endpoint: encodeURI(`/tabstateview/${queryEditor.id}`),
+        })
+      : Promise.resolve();
+
+    return sync
+      .then(() => dispatch({ type: REMOVE_QUERY_EDITOR, queryEditor }))
+      .catch(({ status }) => {
+        if (status !== 404) {
+          return dispatch(
+            addDangerToast(
+              t(
+                'An error occurred while removing tab. Please contact your administrator.',
+              ),
+            ),
+          );
+        }
+        return dispatch({ type: REMOVE_QUERY_EDITOR, queryEditor });
+      });
+  };
 }
 
 export function removeAllOtherQueryEditors(queryEditor) {
@@ -942,7 +958,7 @@ export function addTable(queryEditor, tableName, catalogName, schemaName) {
       mergeTable(
         {
           ...table,
-          id: nanoid(11),
+          id: shortid.generate(),
           expanded: true,
         },
         null,
@@ -962,7 +978,7 @@ export function runTablePreviewQuery(newTable) {
 
     if (database && !database.disable_data_preview) {
       const dataPreviewQuery = {
-        id: nanoid(11),
+        id: shortid.generate(),
         dbId,
         catalog,
         schema,
@@ -1039,7 +1055,7 @@ export function changeDataPreviewId(oldQueryId, newQuery) {
 export function reFetchQueryResults(query) {
   return function (dispatch) {
     const newQuery = {
-      id: nanoid(),
+      id: shortid.generate(),
       dbId: query.dbId,
       sql: query.sql,
       tableName: query.tableName,
